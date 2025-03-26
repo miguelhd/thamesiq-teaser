@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { BackgroundPaths } from "@/components/ui/background-paths";
 import ThamesiqLogo from "@/assets/thamesiq_logo.svg";
+import { TextGradientScroll } from "@/components/ui/text-gradient-scroll";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -170,20 +171,25 @@ export default function Home() {
         ref={sectionInsertedRef}
         className="bg-[#1F235B] text-white px-6 md:px-12 py-24"
       >
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="mb-8">
-            <h2 className="text-3xl font-bold tracking-tight leading-tight md:max-w-xl">
+            <h2 className="text-4xl font-bold tracking-tight leading-tight md:max-w-2xl text-pretty">
               A proven system designed to help teams move faster, engage smarter, and drive greater trust.
             </h2>
           </div>
-          <ul className="text-lg leading-relaxed space-y-3">
-            <li>Empowers Producers to turn lukewarm relationships into real opportunities</li>
-            <li>Supports Internal Practice Groups looking to drive greater producer engagement</li>
-            <li>Cross-sell intelligently with data-backed strategies</li>
-            <li>Accelerates M&amp;A integration of Producers and Practice Groups</li>
-            <li>Provides External Wholesalers, MGAs &amp; Risk Vendors a better way to connect</li>
-            <li>Increases ROI on sports suites by utilizing a strategic deployment method</li>
-          </ul>
+          <ul className="text-xl font-medium leading-relaxed space-y-3 text-pretty">
+  {["Empowers Producers to turn lukewarm relationships into real opportunities",
+    "Supports Internal Practice Groups looking to drive greater producer engagement",
+    "Cross-sell intelligently with data-backed strategies",
+    "Accelerates M&A integration of Producers and Practice Groups",
+    "Provides External Wholesalers, MGAs & Risk Vendors a better way to connect",
+    "Increases ROI on sports suites by utilizing a strategic deployment method",
+  ].map((text, index) => (
+    <li key={index}>
+  <TextGradientScroll text={text} />
+</li>
+  ))}
+</ul>
         </div>
       </div>
 
@@ -236,7 +242,7 @@ export default function Home() {
             <div className="flex items-start gap-2">
               <input type="checkbox" id="privacy" className="mt-1 accent-purple-500" required />
               <label htmlFor="privacy" className="text-sm text-gray-300">
-                You agree to our friendly <a href="#" className="underline">privacy policy</a>.
+                You agree to our <a href="#" className="underline">privacy policy</a>.
               </label>
             </div>
             <button type="submit" className="w-full bg-purple-600 text-white font-semibold py-2 px-4 rounded hover:bg-purple-700">
