@@ -55,7 +55,7 @@ export default function Home() {
           scrollTrigger: {
             trigger: pinnedSectionRef.current,
             start: "top top",
-            end: "+=150%",
+            end: "+=200%",
             scrub: true,
             pin: true,
             anticipatePin: 1,
@@ -89,6 +89,17 @@ export default function Home() {
           { x: 0, opacity: 1, ease: "power2.out" },
           "<"
         );
+
+        // Exit animations
+        tl.to(
+          text1Ref.current,
+          { x: -100, opacity: 0, ease: "power2.in" },
+          0.9
+        ).to(
+          text2Ref.current,
+          { x: 100, opacity: 0, ease: "power2.in" },
+          "<"
+        );
       }
 
       if (sectionInsertedRef.current) {
@@ -102,7 +113,7 @@ export default function Home() {
             ease: "power2.out",
             scrollTrigger: {
               trigger: sectionInsertedRef.current,
-              start: "top 80%",
+              start: "top 60%",
               toggleActions: "play none none reverse",
             },
           }
@@ -131,7 +142,7 @@ export default function Home() {
             </div>
             <h1
               ref={headlineRef}
-              className="text-white text-4xl font-bold text-center max-w-xl"
+              className="text-white text-4xl font-semibold text-center max-w-xl"
             >
               Expert-Driven Sales Activation for Middle Market &amp; Enterprise
             </h1>
@@ -144,10 +155,10 @@ export default function Home() {
               ref={textContainerRef}
               className="flex flex-col items-center justify-center space-y-4 [transform-style:preserve-3d]"
             >
-              <div ref={text1Ref} className="text-white text-3xl font-semibold">
+              <div ref={text1Ref} className="text-white text-4xl font-semibold">
                 Activating Producer Relationships
               </div>
-              <div ref={text2Ref} className="text-white text-3xl font-semibold">
+              <div ref={text2Ref} className="text-white text-4xl font-semibold">
                 Amplifying Practice Group Expertise
               </div>
             </div>
@@ -176,7 +187,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* New Form Section Below */}
       <div className="w-full bg-[#1F235B] text-white py-20 px-4">
         <div className="max-w-xl mx-auto">
           <h2 className="text-3xl font-bold mb-4">Exclusive Early Access Opportunity</h2>
