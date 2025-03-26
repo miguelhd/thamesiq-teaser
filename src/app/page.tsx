@@ -19,8 +19,10 @@ export default function Home() {
   const text1Ref = useRef<HTMLDivElement>(null);
   const text2Ref = useRef<HTMLDivElement>(null);
   const sectionInsertedRef = useRef<HTMLDivElement>(null);
+  const credibilityRef = useRef<HTMLDivElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
 
   const [role, setRole] = useState("");
 
@@ -91,7 +93,6 @@ export default function Home() {
           "<"
         );
 
-        // Exit animations
         tl.to(
           text1Ref.current,
           { x: -100, opacity: 0, ease: "power2.in" },
@@ -116,6 +117,42 @@ export default function Home() {
               trigger: sectionInsertedRef.current,
               start: "top 60%",
               toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
+
+      if (credibilityRef.current) {
+        gsap.fromTo(
+          credibilityRef.current,
+          { autoAlpha: 0, y: 50 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: credibilityRef.current,
+              start: "top 70%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
+
+      if (formRef.current) {
+        gsap.fromTo(
+          formRef.current,
+          { x: 200, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: formRef.current,
+              start: "top bottom",
+              end: "bottom bottom",
+              scrub: true,
             },
           }
         );
@@ -149,9 +186,7 @@ export default function Home() {
             </h1>
           </div>
 
-          <div
-            className="absolute top-0 left-0 w-full h-full flex items-center justify-center perspective-[1000px]"
-          >
+          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center perspective-[1000px]">
             <div
               ref={textContainerRef}
               className="flex flex-col items-center justify-center space-y-4 [transform-style:preserve-3d]"
@@ -167,6 +202,18 @@ export default function Home() {
         </div>
       </div>
 
+      <div ref={credibilityRef} className="bg-black text-white text-center px-6 md:px-12 py-24">
+        <h2 className="text-4xl md:text-5xl font-bold mb-6">Producer<br />Trust &amp; Credibility</h2>
+        <div className="inline-block px-10 py-6 bg-white rounded-[3rem]">
+          <span className="text-black text-[8rem] leading-none font-bold">1.97</span>
+        </div>
+        <p className="text-sm md:text-base mt-6 text-gray-300 max-w-2xl mx-auto">
+          Polled multiple CFOs and In-House Counsels.<br />
+          <strong>This score is on a 1–5 scale</strong><br />
+          3 is what most would rate new attorneys or bankers
+        </p>
+      </div>
+
       <div
         ref={sectionInsertedRef}
         className="bg-[#1F235B] text-white px-6 md:px-12 py-24"
@@ -177,23 +224,18 @@ export default function Home() {
               A proven system designed to help teams move faster, engage smarter, and drive greater trust.
             </h2>
           </div>
-          <ul className="text-xl font-medium leading-relaxed space-y-3 text-pretty">
-  {["Empowers Producers to turn lukewarm relationships into real opportunities",
-    "Supports Internal Practice Groups looking to drive greater producer engagement",
-    "Cross-sell intelligently with data-backed strategies",
-    "Accelerates M&A integration of Producers and Practice Groups",
-    "Provides External Wholesalers, MGAs & Risk Vendors a better way to connect",
-    "Increases ROI on sports suites by utilizing a strategic deployment method",
-  ].map((text, index) => (
-    <li key={index}>
-  <TextGradientScroll text={text} />
-</li>
-  ))}
-</ul>
+          <ul className="text-xl font-medium leading-relaxed space-y-3">
+            <li><p className="text-pretty"><TextGradientScroll text="Empowers Producers to turn lukewarm relationships into real opportunities" /></p></li>
+            <li><p className="text-pretty"><TextGradientScroll text="Supports Internal Practice Groups looking to drive greater producer engagement" /></p></li>
+            <li><p className="text-pretty"><TextGradientScroll text="Cross-sell intelligently with data-backed strategies" /></p></li>
+            <li><p className="text-pretty"><TextGradientScroll text="Accelerates M&A integration of Producers and Practice Groups" /></p></li>
+            <li><p className="text-pretty"><TextGradientScroll text="Provides External Wholesalers, MGAs & Risk Vendors a better way to connect" /></p></li>
+            <li><p className="text-pretty"><TextGradientScroll text="Increases ROI on sports suites by utilizing a strategic deployment method" /></p></li>
+          </ul>
         </div>
       </div>
 
-      <div className="w-full bg-[#1F235B] text-white py-20 px-4">
+      <div ref={formRef} className="w-full bg-[#1F235B] text-white py-20 px-4">
         <div className="max-w-xl mx-auto">
           <h2 className="text-3xl font-bold mb-4">Exclusive Early Access Opportunity</h2>
           <p className="text-gray-300 mb-6">
