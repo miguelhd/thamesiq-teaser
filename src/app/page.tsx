@@ -27,6 +27,7 @@ export default function Home() {
   const [role, setRole] = useState("");
 
   useLayoutEffect(() => {
+    window.scrollTo(0, 0);
     ScrollTrigger.refresh();
   }, []);
 
@@ -86,21 +87,30 @@ export default function Home() {
           { x: 100, opacity: 0 },
           { x: 0, opacity: 1, ease: "power2.out" },
           0.4
-        ).fromTo(
+        );
+
+        tl.fromTo(
           text2Ref.current,
           { x: -100, opacity: 0 },
           { x: 0, opacity: 1, ease: "power2.out" },
-          "<"
+          0.6
         );
 
         tl.to(
           text1Ref.current,
           { x: -100, opacity: 0, ease: "power2.in" },
           0.9
-        ).to(
+        );
+
+        tl.to(
           text2Ref.current,
           { x: 100, opacity: 0, ease: "power2.in" },
-          "<"
+          1.1
+        );
+
+        tl.set(
+          [slide1Ref.current, textContainerRef.current],
+          { display: "none" }
         );
       }
 
@@ -141,21 +151,23 @@ export default function Home() {
       }
 
       if (formRef.current) {
-        gsap.fromTo(
-          formRef.current,
-          { x: 200, opacity: 0 },
-          {
-            x: 0,
-            opacity: 1,
-            ease: "none",
-            scrollTrigger: {
-              trigger: formRef.current,
-              start: "top bottom",
-              end: "bottom bottom",
-              scrub: true,
-            },
-          }
-        );
+        gsap.set(formRef.current, {
+          xPercent: 100,
+          opacity: 1,
+          visibility: 'visible',
+          position: 'relative'
+        });
+
+        gsap.to(formRef.current, {
+          xPercent: 0,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: formRef.current,
+            start: "top 90%",
+            end: "top center",
+            scrub: true,
+          },
+        });
       }
     });
   }, []);
@@ -173,7 +185,8 @@ export default function Home() {
 
           <div
             ref={slide1Ref}
-            className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center perspective-[1000px] [transform-style:preserve-3d]"
+            className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center perspective-[1000px] [transform-style:preserve-3d] pointer-events-none"
+            style={{ height: '100vh', overflow: 'hidden' }}
           >
             <div ref={logoRef} className="w-[50vw] mx-auto mb-4">
               <ThamesiqLogo preserveAspectRatio="xMidYMid meet" className="logo-svg w-full block" />
@@ -186,7 +199,7 @@ export default function Home() {
             </h1>
           </div>
 
-          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center perspective-[1000px]">
+          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center perspective-[1000px] pointer-events-none" style={{ height: '100vh', overflow: 'hidden' }}>
             <div
               ref={textContainerRef}
               className="flex flex-col items-center justify-center space-y-4 [transform-style:preserve-3d]"
@@ -225,12 +238,12 @@ export default function Home() {
             </h2>
           </div>
           <ul className="text-xl font-medium leading-relaxed space-y-3">
-            <li><p className="text-pretty"><TextGradientScroll text="Empowers Producers to turn lukewarm relationships into real opportunities" /></p></li>
-            <li><p className="text-pretty"><TextGradientScroll text="Supports Internal Practice Groups looking to drive greater producer engagement" /></p></li>
-            <li><p className="text-pretty"><TextGradientScroll text="Cross-sell intelligently with data-backed strategies" /></p></li>
-            <li><p className="text-pretty"><TextGradientScroll text="Accelerates M&A integration of Producers and Practice Groups" /></p></li>
-            <li><p className="text-pretty"><TextGradientScroll text="Provides External Wholesalers, MGAs & Risk Vendors a better way to connect" /></p></li>
-            <li><p className="text-pretty"><TextGradientScroll text="Increases ROI on sports suites by utilizing a strategic deployment method" /></p></li>
+            <li><TextGradientScroll text="Empowers Producers to turn lukewarm relationships into real opportunities" /></li>
+            <li><TextGradientScroll text="Supports Internal Practice Groups looking to drive greater producer engagement" /></li>
+            <li><TextGradientScroll text="Cross-sell intelligently with data-backed strategies" /></li>
+            <li><TextGradientScroll text="Accelerates M&A integration of Producers and Practice Groups" /></li>
+            <li><TextGradientScroll text="Provides External Wholesalers, MGAs & Risk Vendors a better way to connect" /></li>
+            <li><TextGradientScroll text="Increases ROI on sports suites by utilizing a strategic deployment method" /></li>
           </ul>
         </div>
       </div>
