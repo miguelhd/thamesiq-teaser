@@ -1,12 +1,9 @@
 "use client";
 
-import React, { useEffect, useLayoutEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { BackgroundPaths } from "@/components/ui/background-paths";
 import ThamesiqLogo from "@/assets/thamesiq_logo.svg";
 
@@ -21,9 +18,10 @@ export default function Home() {
   const text1Ref = useRef<HTMLDivElement>(null);
   const text2Ref = useRef<HTMLDivElement>(null);
   const sectionInsertedRef = useRef<HTMLDivElement>(null);
-  const section4Ref = useRef<HTMLDivElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLElement>(null);
+
+  const [role, setRole] = useState("");
 
   useLayoutEffect(() => {
     ScrollTrigger.refresh();
@@ -110,61 +108,6 @@ export default function Home() {
           }
         );
       }
-
-      if (section4Ref.current) {
-        gsap.fromTo(
-          section4Ref.current,
-          { autoAlpha: 0, y: 50 },
-          {
-            autoAlpha: 1,
-            y: 0,
-            duration: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: section4Ref.current,
-              start: "top 80%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-      }
-
-      const handleMouseMove = (event: MouseEvent) => {
-        const { innerWidth, innerHeight } = window;
-        const effectMultiplierSlide1 = 20;
-        const effectMultiplierText = 20;
-
-        const rotationYSlide1 = ((event.clientX - innerWidth / 2) / innerWidth) * effectMultiplierSlide1;
-        const rotationXSlide1 = ((event.clientY - innerHeight / 2) / innerHeight) * -effectMultiplierSlide1;
-
-        const rotationYText = ((event.clientX - innerWidth / 2) / innerWidth) * effectMultiplierText;
-        const rotationXText = ((event.clientY - innerHeight / 2) / innerHeight) * -effectMultiplierText;
-
-        if (slide1Ref.current) {
-          gsap.to(slide1Ref.current, {
-            rotationY: rotationYSlide1,
-            rotationX: rotationXSlide1,
-            transformOrigin: "center center",
-            ease: "power2.out",
-            duration: 0.5,
-          });
-        }
-        if (textContainerRef.current) {
-          gsap.to(textContainerRef.current, {
-            rotationY: rotationYText,
-            rotationX: rotationXText,
-            transformOrigin: "center center",
-            ease: "power2.out",
-            duration: 0.5,
-          });
-        }
-      };
-
-      window.addEventListener("mousemove", handleMouseMove);
-
-      return () => {
-        window.removeEventListener("mousemove", handleMouseMove);
-      };
     });
   }, []);
 
@@ -214,13 +157,15 @@ export default function Home() {
 
       <div
         ref={sectionInsertedRef}
-        className="h-[832px] bg-[#1F235B] text-white flex flex-col justify-center px-8"
+        className="bg-[#1F235B] text-white px-6 md:px-12 py-24"
       >
-        <div className="max-w-4xl mx-auto space-y--6">
-          <h2 className="text-3xl font-bold leading-tight">
-            A proven system designed to help teams move faster, engage smarter, and drive greater trust.
-          </h2>
-          <ul className="text-lg leading-relaxed space-y-2">
+        <div className="max-w-5xl mx-auto">
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold tracking-tight leading-tight md:max-w-xl">
+              A proven system designed to help teams move faster, engage smarter, and drive greater trust.
+            </h2>
+          </div>
+          <ul className="text-lg leading-relaxed space-y-3">
             <li>Empowers Producers to turn lukewarm relationships into real opportunities</li>
             <li>Supports Internal Practice Groups looking to drive greater producer engagement</li>
             <li>Cross-sell intelligently with data-backed strategies</li>
@@ -231,27 +176,62 @@ export default function Home() {
         </div>
       </div>
 
-      <div
-        ref={section4Ref}
-        className="h-[832px] flex flex-col items-center justify-center bg-neutral-900 text-white p-8"
-      >
-        <div className="max-w-md w-full">
-          <h4 className="text-2xl mb-4 font-bold">Request Early Access</h4>
-          <p className="mb-6 text-gray-300">
-            Provide your details to be notified when we launch.
+      {/* New Form Section Below */}
+      <div className="w-full bg-[#1F235B] text-white py-20 px-4">
+        <div className="max-w-xl mx-auto">
+          <h2 className="text-3xl font-bold mb-4">Exclusive Early Access Opportunity</h2>
+          <p className="text-gray-300 mb-6">
+            We’re launching an exclusive early access program where we will work hands-on with a small group of clients. <br />
+            Interested in learning more? Sign up below.
           </p>
-          <form className="space-y-4">
-            <div>
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" type="text" placeholder="Jane Doe" />
+          <form className="space-y-6">
+            <div className="flex gap-4">
+              <div className="w-1/2">
+                <label htmlFor="firstName" className="block text-sm mb-1">First name<span className="text-purple-400"> *</span></label>
+                <input type="text" id="firstName" placeholder="First name" className="w-full p-2 rounded bg-white text-black" required />
+              </div>
+              <div className="w-1/2">
+                <label htmlFor="lastName" className="block text-sm mb-1">Last name<span className="text-purple-400"> *</span></label>
+                <input type="text" id="lastName" placeholder="Last name" className="w-full p-2 rounded bg-white text-black" required />
+              </div>
             </div>
             <div>
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="jane@example.com" />
+              <label htmlFor="email" className="block text-sm mb-1">Email<span className="text-purple-400"> *</span></label>
+              <input type="email" id="email" placeholder="you@company.com" className="w-full p-2 rounded bg-white text-black" required />
             </div>
-            <Button type="submit" className="w-full">
-              Submit
-            </Button>
+            <div>
+              <label htmlFor="role" className="block text-sm mb-1">Role<span className="text-purple-400"> *</span></label>
+              <select
+                id="role"
+                onChange={(e) => setRole(e.target.value)}
+                className="w-full p-2 rounded bg-white text-black"
+                required
+              >
+                <option value="">Select your role</option>
+                <option>Practice Group / Coverage Leader</option>
+                <option>Sales Manager / Regional MD</option>
+                <option>Producer</option>
+                <option>Wholesale Leader</option>
+                <option>MGA Leader</option>
+                <option>Risk Mitigation Tool</option>
+                <option>Other (Tell us more!)</option>
+              </select>
+            </div>
+            {role === "Other (Tell us more!)" && (
+              <div>
+                <label htmlFor="customRole" className="block text-sm mb-1">Your role</label>
+                <input type="text" id="customRole" placeholder="Tell us more" className="w-full p-2 rounded bg-white text-black" required />
+              </div>
+            )}
+            <div className="flex items-start gap-2">
+              <input type="checkbox" id="privacy" className="mt-1 accent-purple-500" required />
+              <label htmlFor="privacy" className="text-sm text-gray-300">
+                You agree to our friendly <a href="#" className="underline">privacy policy</a>.
+              </label>
+            </div>
+            <button type="submit" className="w-full bg-purple-600 text-white font-semibold py-2 px-4 rounded hover:bg-purple-700">
+              Request Early Access
+            </button>
           </form>
         </div>
       </div>
