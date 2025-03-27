@@ -12,7 +12,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Home() {
 const pinnedSectionRef = useRef<HTMLDivElement | null>(null);
 const slide1Ref = useRef<HTMLDivElement | null>(null);
-const logoRef = useRef<SVGSVGElement | null>(null);
+const logoRef = useRef<HTMLDivElement | null>(null);
 const headlineRef = useRef<HTMLHeadingElement | null>(null);
 const textContainerRef = useRef<HTMLDivElement | null>(null);
 const text1Ref = useRef<HTMLDivElement | null>(null);
