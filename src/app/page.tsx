@@ -10,19 +10,19 @@ import { TextGradientScroll } from "@/components/ui/text-gradient-scroll";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  const pinnedSectionRef = useRef(null);
-  const slide1Ref = useRef(null);
-  const logoRef = useRef(null);
-  const headlineRef = useRef(null);
-  const textContainerRef = useRef(null);
-  const text1Ref = useRef(null);
-  const text2Ref = useRef(null);
-  const sectionInsertedRef = useRef(null);
-  const credibilityRef = useRef(null);
-  const backgroundRef = useRef(null);
-  const mainRef = useRef(null);
-  const formRef = useRef<HTMLDivElement | null>(null);
-  const formContentRef = useRef(null);
+const pinnedSectionRef = useRef<HTMLDivElement | null>(null);
+const slide1Ref = useRef<HTMLDivElement | null>(null);
+const logoRef = useRef<SVGSVGElement | null>(null);
+const headlineRef = useRef<HTMLHeadingElement | null>(null);
+const textContainerRef = useRef<HTMLDivElement | null>(null);
+const text1Ref = useRef<HTMLDivElement | null>(null);
+const text2Ref = useRef<HTMLDivElement | null>(null);
+const sectionInsertedRef = useRef<HTMLDivElement | null>(null);
+const credibilityRef = useRef<HTMLDivElement | null>(null);
+const backgroundRef = useRef<HTMLDivElement | null>(null);
+const mainRef = useRef<HTMLElement | null>(null);
+const formRef = useRef<HTMLDivElement | null>(null);
+const formContentRef = useRef<HTMLDivElement | null>(null);
 
   const [role, setRole] = useState("");
 
