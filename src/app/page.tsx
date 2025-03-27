@@ -21,7 +21,7 @@ export default function Home() {
   const credibilityRef = useRef(null);
   const backgroundRef = useRef(null);
   const mainRef = useRef(null);
-  const formRef = useRef(null);
+  const formRef = useRef<HTMLDivElement | null>(null);
   const formContentRef = useRef(null);
 
   const [role, setRole] = useState("");
