@@ -14,13 +14,14 @@ export default function Home() {
   // Use refs to target specific DOM elements.
   const pinnedSectionRef = useRef<HTMLDivElement | null>(null);
   const slide1Ref = useRef<HTMLDivElement | null>(null);
-  // Change the type here to HTMLDivElement because this ref is attached to a div.
+  // The ref attached to the div containing the logo.
   const logoRef = useRef<HTMLDivElement | null>(null);
   const headlineRef = useRef<HTMLHeadingElement | null>(null);
   const textContainerRef = useRef<HTMLDivElement | null>(null);
   const text1Ref = useRef<HTMLDivElement | null>(null);
   const text2Ref = useRef<HTMLDivElement | null>(null);
-  const sectionInsertedRef = useRef<HTMLDivElement | null>(null);
+  // Renamed from sectionInsertedRef to bulletSectionRef
+  const bulletSectionRef = useRef<HTMLDivElement | null>(null);
   const bulletListRef = useRef<HTMLUListElement | null>(null);
   const credibilityRef = useRef<HTMLDivElement | null>(null);
   const backgroundRef = useRef<HTMLDivElement | null>(null);
@@ -30,11 +31,11 @@ export default function Home() {
 
   const [role, setRole] = useState("");
 
-  // Function to scroll back to the top.
-  const scrollToTop = () =>
+  // Function to scroll back to the top of the page.
+  const scrollToPageTop = () =>
     window.scrollTo({ top: 0, behavior: "smooth" });
-  // Function to scroll to the form section.
-  const scrollToForm = () =>
+  // Function to scroll to the access form section.
+  const scrollToAccessForm = () =>
     formRef.current?.scrollIntoView({ behavior: "smooth" });
 
   useEffect(() => {
@@ -104,10 +105,10 @@ export default function Home() {
             .to(text2Ref.current, { x: 100, opacity: 0, ease: "power2.in" }, "<");
         }
 
-        // Fade in the section inserted as it comes into view.
-        if (sectionInsertedRef.current) {
+        // Animate the bullet section as it comes into view.
+        if (bulletSectionRef.current) {
           gsap.fromTo(
-            sectionInsertedRef.current,
+            bulletSectionRef.current,
             { autoAlpha: 0, y: 50 },
             {
               autoAlpha: 1,
@@ -115,7 +116,7 @@ export default function Home() {
               duration: 1,
               ease: "power2.out",
               scrollTrigger: {
-                trigger: sectionInsertedRef.current,
+                trigger: bulletSectionRef.current,
                 start: "top 60%",
                 toggleActions: "play none none reverse",
               },
@@ -190,7 +191,7 @@ export default function Home() {
       <div className="fixed top-4 right-4 flex items-center gap-4 bg-gray-200 px-4 py-2 rounded-2xl shadow-lg z-50">
         <a href="#" className="text-gray-700 hover:text-gray-900 transition">Home</a>
         <a href="#" className="text-gray-700 hover:text-gray-900 transition">About</a>
-        <button onClick={scrollToForm} className="cursor-pointer px-4 py-2 bg-gray-900 text-gray-100 rounded-md hover:bg-gray-800 transition">Get Access</button>
+        <button onClick={scrollToAccessForm} className="cursor-pointer px-4 py-2 bg-gray-900 text-gray-100 rounded-md hover:bg-gray-800 transition">Get Access</button>
       </div>
 
       {/* Hero Section */}
@@ -204,7 +205,7 @@ export default function Home() {
           <h1 ref={headlineRef} className="text-gray-900 text-4xl font-bold text-center max-w-xl">
             Expert-Driven Sales Activation for Middle Market &amp; Enterprise
           </h1>
-          <button onClick={scrollToForm} className="cursor-pointer mt-10 px-8 py-4 rounded-md transition-all duration-300 text-gray-100 bg-gradient-to-r from-gray-900 to-gray-700 shadow-md hover:shadow-xl hover:shadow-gray-500/50 hover:from-gray-800 hover:to-gray-600 focus:outline-none z-30">
+          <button onClick={scrollToAccessForm} className="cursor-pointer mt-10 px-8 py-4 rounded-md transition-all duration-300 text-gray-100 bg-gradient-to-r from-gray-900 to-gray-700 shadow-md hover:shadow-xl hover:shadow-gray-500/50 hover:from-gray-800 hover:to-gray-600 focus:outline-none z-30">
             Get Early Access
           </button>
         </div>
@@ -243,8 +244,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Section Inserted */}
-      <div ref={sectionInsertedRef} className="flex items-center h-screen text-gray-900 px-6 md:px-12">
+      {/* Bullet Section */}
+      <div ref={bulletSectionRef} className="flex items-center h-screen text-gray-900 px-6 md:px-12">
         <div className="max-w-6xl mx-auto">
           <div className="mb-8">
             <h2 className="text-4xl font-bold tracking-tight leading-tight md:max-w-xl">
@@ -340,7 +341,7 @@ export default function Home() {
             </form>
           </div>
           <div className="mt-6">
-            <button onClick={scrollToTop} className="text-gray-700 hover:text-gray-900 transition underline">
+            <button onClick={scrollToPageTop} className="text-gray-700 hover:text-gray-900 transition underline">
               Back to Top
             </button>
           </div>
