@@ -14,13 +14,11 @@ export default function Home() {
   // Use refs to target specific DOM elements.
   const pinnedSectionRef = useRef<HTMLDivElement | null>(null);
   const slide1Ref = useRef<HTMLDivElement | null>(null);
-  // The ref attached to the div containing the logo.
   const logoRef = useRef<HTMLDivElement | null>(null);
   const headlineRef = useRef<HTMLHeadingElement | null>(null);
   const textContainerRef = useRef<HTMLDivElement | null>(null);
   const text1Ref = useRef<HTMLDivElement | null>(null);
   const text2Ref = useRef<HTMLDivElement | null>(null);
-  // Renamed from sectionInsertedRef to bulletSectionRef
   const bulletSectionRef = useRef<HTMLDivElement | null>(null);
   const bulletListRef = useRef<HTMLUListElement | null>(null);
   const credibilityRef = useRef<HTMLDivElement | null>(null);
@@ -181,8 +179,49 @@ export default function Home() {
       });
     }, mainRef);
 
-    // Clean up the GSAP context when the component unmounts.
-    return () => ctx.revert();
+    // Add mouse interaction for 3D plane shift on the hero section.
+    const slideElem = slide1Ref.current;
+    if (slideElem) {
+      const handleMouseMove = (e: MouseEvent) => {
+        const rect = slideElem.getBoundingClientRect();
+        const x = e.clientX - rect.left; // Mouse X relative to element
+        const y = e.clientY - rect.top;  // Mouse Y relative to element
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        // Calculate rotation angles (adjust max degrees as needed)
+        const rotateY = ((x - centerX) / centerX) * 5; // max 5deg rotation
+        const rotateX = -((y - centerY) / centerY) * 5;
+        gsap.to(slideElem, {
+          rotationY: rotateY,
+          rotationX: rotateX,
+          transformPerspective: 1000,
+          ease: "power3.out",
+          duration: 0.5,
+        });
+      };
+
+      const handleMouseLeave = () => {
+        // Reset the rotation when the mouse leaves the element.
+        gsap.to(slideElem, {
+          rotationY: 0,
+          rotationX: 0,
+          ease: "power3.out",
+          duration: 0.5,
+        });
+      };
+
+      slideElem.addEventListener("mousemove", handleMouseMove);
+      slideElem.addEventListener("mouseleave", handleMouseLeave);
+
+      // Clean up event listeners on component unmount.
+      return () => {
+        slideElem.removeEventListener("mousemove", handleMouseMove);
+        slideElem.removeEventListener("mouseleave", handleMouseLeave);
+        ctx.revert();
+      };
+    } else {
+      return () => ctx.revert();
+    }
   }, []);
 
   return (
@@ -191,14 +230,15 @@ export default function Home() {
       <div className="fixed top-4 right-4 flex items-center gap-4 bg-gray-200 px-4 py-2 rounded-2xl shadow-lg z-50">
         <a href="#" className="text-gray-700 hover:text-gray-900 transition">Home</a>
         <a href="#" className="text-gray-700 hover:text-gray-900 transition">About</a>
-        <button onClick={scrollToAccessForm} className="cursor-pointer px-4 py-2 bg-gray-900 text-gray-100 rounded-md hover:bg-gray-800 transition">Get Access</button>
+        <button onClick={scrollToAccessForm} className="cursor-pointer px-4 py-2 bg-gray-900 text-gray-100 rounded-md hover:bg-gray-800 transition">
+          Get Access
+        </button>
       </div>
 
       {/* Hero Section */}
       <div ref={pinnedSectionRef} className="relative h-screen z-10 overflow-hidden">
         <div ref={backgroundRef} className="absolute inset-0 -z-10" />
         <div ref={slide1Ref} className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center px-4 perspective-[1000px] z-20">
-          {/* The ref here now points to a div */}
           <div ref={logoRef} className="w-[65vw] mx-auto mb-4">
             <ThamesiqLogo preserveAspectRatio="xMidYMid meet" className="logo-svg w-full block" />
           </div>
