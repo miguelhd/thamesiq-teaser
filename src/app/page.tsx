@@ -7,50 +7,53 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ThamesiqLogo from "@/assets/thamesiq_logo.svg";
 import { TextGradientScroll } from "@/components/ui/text-gradient-scroll";
 
+// Register the ScrollTrigger plugin with GSAP.
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-const pinnedSectionRef = useRef<HTMLDivElement | null>(null);
-const slide1Ref = useRef<HTMLDivElement | null>(null);
-const logoRef = useRef<HTMLDivElement | null>(null);
-const headlineRef = useRef<HTMLHeadingElement | null>(null);
-const textContainerRef = useRef<HTMLDivElement | null>(null);
-const text1Ref = useRef<HTMLDivElement | null>(null);
-const text2Ref = useRef<HTMLDivElement | null>(null);
-const sectionInsertedRef = useRef<HTMLDivElement | null>(null);
-const credibilityRef = useRef<HTMLDivElement | null>(null);
-const backgroundRef = useRef<HTMLDivElement | null>(null);
-const mainRef = useRef<HTMLElement | null>(null);
-const formRef = useRef<HTMLDivElement | null>(null);
-const formContentRef = useRef<HTMLDivElement | null>(null);
+  // Use refs to target specific DOM elements.
+  const pinnedSectionRef = useRef<HTMLDivElement | null>(null);
+  const slide1Ref = useRef<HTMLDivElement | null>(null);
+  // Change the type here to HTMLDivElement because this ref is attached to a div.
+  const logoRef = useRef<HTMLDivElement | null>(null);
+  const headlineRef = useRef<HTMLHeadingElement | null>(null);
+  const textContainerRef = useRef<HTMLDivElement | null>(null);
+  const text1Ref = useRef<HTMLDivElement | null>(null);
+  const text2Ref = useRef<HTMLDivElement | null>(null);
+  const sectionInsertedRef = useRef<HTMLDivElement | null>(null);
+  const bulletListRef = useRef<HTMLUListElement | null>(null);
+  const credibilityRef = useRef<HTMLDivElement | null>(null);
+  const backgroundRef = useRef<HTMLDivElement | null>(null);
+  const mainRef = useRef<HTMLElement | null>(null);
+  const formRef = useRef<HTMLDivElement | null>(null);
+  const formContentRef = useRef<HTMLDivElement | null>(null);
 
   const [role, setRole] = useState("");
 
-  // Smooth scroll to top
-  const scrollToTop = () => {
+  // Function to scroll back to the top.
+  const scrollToTop = () =>
     window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  // Smooth scroll to form section
-  const scrollToForm = () => {
-    if (formRef.current) {
-      formRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  // Function to scroll to the form section.
+  const scrollToForm = () =>
+    formRef.current?.scrollIntoView({ behavior: "smooth" });
 
   useEffect(() => {
+    // Create a GSAP context to scope our animations.
     const ctx = gsap.context(() => {
+      // Initially hide the main element.
       if (mainRef.current) {
         mainRef.current.style.visibility = "hidden";
         mainRef.current.style.opacity = "0";
       }
+
       requestAnimationFrame(() => {
+        // Fade in the main element.
         if (mainRef.current) {
           mainRef.current.style.visibility = "visible";
           gsap.to(mainRef.current, { opacity: 1, duration: 0.6, ease: "power1.out" });
         }
 
-        // HERO ANIMATIONS
+        // Animate elements in the pinned section.
         if (
           pinnedSectionRef.current &&
           slide1Ref.current &&
@@ -101,7 +104,7 @@ const formContentRef = useRef<HTMLDivElement | null>(null);
             .to(text2Ref.current, { x: 100, opacity: 0, ease: "power2.in" }, "<");
         }
 
-        // SECTION INSERTED ANIMATION
+        // Fade in the section inserted as it comes into view.
         if (sectionInsertedRef.current) {
           gsap.fromTo(
             sectionInsertedRef.current,
@@ -120,7 +123,24 @@ const formContentRef = useRef<HTMLDivElement | null>(null);
           );
         }
 
-        // CREDIBILITY SECTION ANIMATION
+        // Animate each bullet item with a staggered effect.
+        if (bulletListRef.current) {
+          const bullets = bulletListRef.current.querySelectorAll("li");
+          gsap.from(bullets, {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            stagger: 0.2,
+            scrollTrigger: {
+              trigger: bulletListRef.current,
+              start: "top 75%",
+              toggleActions: "play none none reverse",
+            },
+          });
+        }
+
+        // Fade in the credibility section.
         if (credibilityRef.current) {
           gsap.fromTo(
             credibilityRef.current,
@@ -139,8 +159,8 @@ const formContentRef = useRef<HTMLDivElement | null>(null);
           );
         }
 
-        // FORM CONTENT ANIMATION (animate only the inner content)
-        if (formRef.current && formContentRef.current && formContentRef.current.parentNode) {
+        // Slide in the form content from the right.
+        if (formRef.current && formContentRef.current) {
           gsap.set(formContentRef.current, { x: window.innerWidth });
           gsap.to(formContentRef.current, {
             x: 0,
@@ -155,10 +175,12 @@ const formContentRef = useRef<HTMLDivElement | null>(null);
           });
         }
 
+        // Refresh ScrollTrigger to update the animations.
         ScrollTrigger.refresh();
       });
     }, mainRef);
 
+    // Clean up the GSAP context when the component unmounts.
     return () => ctx.revert();
   }, []);
 
@@ -168,29 +190,32 @@ const formContentRef = useRef<HTMLDivElement | null>(null);
       <div className="fixed top-4 right-4 flex items-center gap-4 bg-gray-200 px-4 py-2 rounded-2xl shadow-lg z-50">
         <a href="#" className="text-gray-700 hover:text-gray-900 transition">Home</a>
         <a href="#" className="text-gray-700 hover:text-gray-900 transition">About</a>
-        <button  onClick={scrollToForm} className="cursor-pointer px-4 py-2 bg-gray-900 text-gray-100 rounded-md hover:bg-gray-800 transition">Get Access</button>
+        <button onClick={scrollToForm} className="cursor-pointer px-4 py-2 bg-gray-900 text-gray-100 rounded-md hover:bg-gray-800 transition">Get Access</button>
       </div>
 
       {/* Hero Section */}
       <div ref={pinnedSectionRef} className="relative h-screen z-10 overflow-hidden">
         <div ref={backgroundRef} className="absolute inset-0 -z-10" />
         <div ref={slide1Ref} className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center px-4 perspective-[1000px] z-20">
+          {/* The ref here now points to a div */}
           <div ref={logoRef} className="w-[65vw] mx-auto mb-4">
             <ThamesiqLogo preserveAspectRatio="xMidYMid meet" className="logo-svg w-full block" />
           </div>
           <h1 ref={headlineRef} className="text-gray-900 text-4xl font-bold text-center max-w-xl">
             Expert-Driven Sales Activation for Middle Market &amp; Enterprise
           </h1>
-          {/* Hero Button */}
           <button onClick={scrollToForm} className="cursor-pointer mt-10 px-8 py-4 rounded-md transition-all duration-300 text-gray-100 bg-gradient-to-r from-gray-900 to-gray-700 shadow-md hover:shadow-xl hover:shadow-gray-500/50 hover:from-gray-800 hover:to-gray-600 focus:outline-none z-30">
             Get Early Access
           </button>
         </div>
-        {/* Background text container (non-interactive) */}
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0">
           <div ref={textContainerRef} className="flex flex-col items-center justify-center space-y-4">
-            <div ref={text1Ref} className="text-gray-900 text-5xl font-bold">Activating Producer Relationships</div>
-            <div ref={text2Ref} className="text-gray-900 text-5xl font-bold">Amplifying Practice Group Expertise</div>
+            <div ref={text1Ref} className="text-gray-900 text-5xl font-bold">
+              Activating Producer Relationships
+            </div>
+            <div ref={text2Ref} className="text-gray-900 text-5xl font-bold">
+              Amplifying Practice Group Expertise
+            </div>
           </div>
         </div>
       </div>
@@ -226,13 +251,25 @@ const formContentRef = useRef<HTMLDivElement | null>(null);
               A proven system designed to help teams move faster, engage smarter, and drive greater trust.
             </h2>
           </div>
-          <ul className="text-2xl text-gray-700 font-semibold leading-normal space-y-3">
-            <li><TextGradientScroll text="Empowers Producers to turn lukewarm relationships into real opportunities" /></li>
-            <li><TextGradientScroll text="Supports Internal Practice Groups looking to drive greater producer engagement" /></li>
-            <li><TextGradientScroll text="Cross-sell intelligently with data-backed strategies" /></li>
-            <li><TextGradientScroll text="Accelerates M&A integration of Producers and Practice Groups" /></li>
-            <li><TextGradientScroll text="Provides External Wholesalers, MGAs &amp; Risk Vendors a better way to connect" /></li>
-            <li><TextGradientScroll text="Increases ROI on sports suites by utilizing a strategic deployment method" /></li>
+          <ul ref={bulletListRef} className="text-2xl text-gray-700 font-semibold leading-normal space-y-3">
+            <li>
+              <TextGradientScroll text="Empowers Producers to turn lukewarm relationships into real opportunities" />
+            </li>
+            <li>
+              <TextGradientScroll text="Supports Internal Practice Groups looking to drive greater producer engagement" />
+            </li>
+            <li>
+              <TextGradientScroll text="Cross-sell intelligently with data-backed strategies" />
+            </li>
+            <li>
+              <TextGradientScroll text="Accelerates M&A integration of Producers and Practice Groups" />
+            </li>
+            <li>
+              <TextGradientScroll text="Provides External Wholesalers, MGAs &amp; Risk Vendors a better way to connect" />
+            </li>
+            <li>
+              <TextGradientScroll text="Increases ROI on sports suites by utilizing a strategic deployment method" />
+            </li>
           </ul>
         </div>
       </div>
@@ -302,7 +339,6 @@ const formContentRef = useRef<HTMLDivElement | null>(null);
               </button>
             </form>
           </div>
-          {/* Back to Top link inside the Form Section */}
           <div className="mt-6">
             <button onClick={scrollToTop} className="text-gray-700 hover:text-gray-900 transition underline">
               Back to Top
@@ -313,8 +349,12 @@ const formContentRef = useRef<HTMLDivElement | null>(null);
 
       <style jsx global>{`
         @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
         }
         .animate-spin-slow {
           animation: spin-slow 8s linear infinite;
