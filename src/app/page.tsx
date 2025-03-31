@@ -189,8 +189,8 @@ export default function Home() {
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
         // Calculate rotation angles (adjust max degrees as needed)
-        const rotateY = ((x - centerX) / centerX) * 5; // max 5deg rotation
-        const rotateX = -((y - centerY) / centerY) * 5;
+        const rotateY = ((x - centerX) / centerX) * 10; // max 10deg rotation
+        const rotateX = -((y - centerY) / centerY) * 10;
         gsap.to(slideElem, {
           rotationY: rotateY,
           rotationX: rotateX,
@@ -227,7 +227,7 @@ export default function Home() {
   return (
     <main ref={mainRef} className="relative w-full overflow-x-hidden" style={{ visibility: "hidden", opacity: 0 }}>
       {/* Floating Nav */}
-      <div className="fixed top-4 right-4 flex items-center gap-4 bg-gray-200 px-4 py-2 rounded-2xl shadow-lg z-50">
+      <div className="fixed top-4 right-4 flex items-center gap-4 bg-gray-50/75 backdrop-blur-md px-4 py-2 rounded-2xl shadow-lg z-50">
         <a href="#" className="text-gray-700 hover:text-gray-900 transition">Home</a>
         <a href="#" className="text-gray-700 hover:text-gray-900 transition">About</a>
         <button onClick={scrollToAccessForm} className="cursor-pointer px-4 py-2 bg-gray-900 text-gray-100 rounded-md hover:bg-gray-800 transition">
@@ -236,25 +236,34 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <div ref={pinnedSectionRef} className="relative h-screen z-10 overflow-hidden">
+      <div ref={pinnedSectionRef} className="relative h-screen overflow-hidden z-10">
         <div ref={backgroundRef} className="absolute inset-0 -z-10" />
-        <div ref={slide1Ref} className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center px-4 perspective-[1000px] z-20">
-          <div ref={logoRef} className="w-[65vw] mx-auto mb-4">
+        <div
+          ref={slide1Ref}
+          className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center px-4 perspective-[1000px] z-20"
+        >
+          <div ref={logoRef} className="w-11/12 md:w-[65vw] mx-auto mb-4">
             <ThamesiqLogo preserveAspectRatio="xMidYMid meet" className="logo-svg w-full block" />
           </div>
-          <h1 ref={headlineRef} className="text-gray-900 text-4xl font-bold text-center max-w-xl">
+          <h1
+            ref={headlineRef}
+            className="text-gray-900 text-3xl md:text-4xl font-bold text-center max-w-xl px-4"
+          >
             Expert-Driven Sales Activation for Middle Market &amp; Enterprise
           </h1>
-          <button onClick={scrollToAccessForm} className="cursor-pointer mt-10 px-8 py-4 rounded-md transition-all duration-300 text-gray-100 bg-gradient-to-r from-gray-900 to-gray-700 shadow-md hover:shadow-xl hover:shadow-gray-500/50 hover:from-gray-800 hover:to-gray-600 focus:outline-none z-30">
+          <button
+            onClick={scrollToAccessForm}
+            className="cursor-pointer mt-6 px-6 py-3 md:px-8 md:py-4 rounded-md transition-all duration-300 text-gray-100 bg-gradient-to-r from-gray-900 to-gray-700 shadow-md hover:shadow-xl focus:outline-none z-30"
+          >
             Get Early Access
           </button>
         </div>
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0">
           <div ref={textContainerRef} className="flex flex-col items-center justify-center space-y-4">
-            <div ref={text1Ref} className="text-gray-900 text-5xl font-bold">
+            <div ref={text1Ref} className="text-gray-900 text-4xl md:text-5xl text-center font-bold">
               Activating Producer Relationships
             </div>
-            <div ref={text2Ref} className="text-gray-900 text-5xl font-bold">
+            <div ref={text2Ref} className="text-gray-900 text-4xl md:text-5xl text-center font-bold">
               Amplifying Practice Group Expertise
             </div>
           </div>
@@ -262,21 +271,21 @@ export default function Home() {
       </div>
 
       {/* Credibility Section */}
-      <div ref={credibilityRef} className="relative h-screen px-6 md:px-12 bg-gray-50 overflow-hidden">
+      <div ref={credibilityRef} className="relative h-screen px-4 md:px-12 bg-gray-50 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 opacity-30"></div>
         <div className="relative z-10 flex flex-col items-center justify-center h-full">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8 text-center">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 text-center">
             Producer<br />Trust &amp; Credibility
           </h2>
           <div className="flex items-center justify-center mb-6">
-            <div className="relative w-40 h-40 flex items-center justify-center">
+            <div className="relative w-32 h-32 md:w-40 md:h-40 flex items-center justify-center">
               <div className="absolute inset-0 rounded-full border-4 border-dashed border-gray-300 animate-spin-slow"></div>
-              <div className="relative inline-block px-10 py-6 bg-white rounded-full border border-gray-300 shadow-lg">
-                <span className="text-gray-900 text-[8rem] leading-none font-bold">1.97</span>
+              <div className="relative inline-block px-6 py-4 bg-white rounded-full border border-gray-300 shadow-lg">
+                <span className="text-gray-900 text-4xl md:text-[8rem] leading-none font-bold">1.97</span>
               </div>
             </div>
           </div>
-          <p className="text-sm mt-6 text-gray-700 max-w-2xl text-center">
+          <p className="text-sm md:text-base text-gray-700 max-w-2xl text-center">
             Polled multiple CFOs and In-House Counsels.
             <br />
             On a 1–5 scale, 3 is what most would rate new attorneys or bankers.
@@ -285,14 +294,14 @@ export default function Home() {
       </div>
 
       {/* Bullet Section */}
-      <div ref={bulletSectionRef} className="flex items-center h-screen text-gray-900 px-6 md:px-12">
+      <div ref={bulletSectionRef} className="flex items-center h-screen px-4 md:px-12 text-gray-900">
         <div className="max-w-6xl mx-auto">
-          <div className="mb-8">
-            <h2 className="text-4xl font-bold tracking-tight leading-tight md:max-w-xl">
+          <div className="mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-tight text-left md:text-left">
               A proven system designed to help teams move faster, engage smarter, and drive greater trust.
             </h2>
           </div>
-          <ul ref={bulletListRef} className="text-2xl text-gray-700 font-semibold leading-normal space-y-3">
+          <ul ref={bulletListRef} className="text-lg md:text-2xl text-gray-700 font-semibold leading-normal space-y-3">
             <li>
               <TextGradientScroll text="Empowers Producers to turn lukewarm relationships into real opportunities" />
             </li>
@@ -317,23 +326,23 @@ export default function Home() {
 
       {/* Form Section */}
       <div ref={formRef} className="flex flex-col items-center justify-center h-screen w-full bg-gray-50 px-4">
-        <div ref={formContentRef} className="max-w-xl mx-auto">
+        <div ref={formContentRef} className="max-w-xl w-full mx-auto">
           <div className="backdrop-blur rounded-2xl shadow-xl p-8 border border-gray-300">
-            <h2 className="text-3xl font-bold mb-4 text-gray-900">Exclusive Early Access Opportunity</h2>
-            <p className="text-gray-700 mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900">Exclusive Early Access Opportunity</h2>
+            <p className="text-gray-700 mb-6 text-sm md:text-base">
               We’re launching an exclusive early access program where we will work hands-on with a small group of clients.
               <br />
               Interested in learning more? Sign up below.
             </p>
             <form className="space-y-6">
-              <div className="flex gap-4">
-                <div className="w-1/2">
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="w-full md:w-1/2">
                   <label htmlFor="firstName" className="block text-sm mb-1 text-gray-700">
                     First name<span className="text-gray-900"> *</span>
                   </label>
                   <input type="text" id="firstName" placeholder="First name" className="w-full p-2 rounded text-gray-900 border border-gray-300" required />
                 </div>
-                <div className="w-1/2">
+                <div className="w-full md:w-1/2">
                   <label htmlFor="lastName" className="block text-sm mb-1 text-gray-700">
                     Last name<span className="text-gray-900"> *</span>
                   </label>
