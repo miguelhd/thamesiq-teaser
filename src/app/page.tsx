@@ -231,7 +231,7 @@ export default function Home() {
       {/* Floating Nav */}
       <div className="fixed top-4 right-4 flex items-center gap-4 bg-gray-50/75 backdrop-blur-md px-4 py-2 rounded-2xl shadow-lg z-50">
         <a href="#" className="text-gray-700 hover:text-gray-900 transition">Home</a>
-        <a href="#" className="text-gray-700 hover:text-gray-900 transition">About</a>
+        <a href="/values" className="text-gray-700 hover:text-gray-900 transition">Values</a>
         <button onClick={scrollToAccessForm} className="cursor-pointer px-4 py-2 bg-gray-900 text-gray-100 rounded-md hover:bg-gray-800 transition">
           Get Access
         </button>
@@ -251,23 +251,23 @@ export default function Home() {
           </div>
           <h1
             ref={headlineRef}
-            className="text-gray-900 text-3xl md:text-4xl font-bold text-center max-w-xl mt-8"
+            className="text-gray-900 text-small-heading md:text-4xl font-bold text-center max-w-xl mt-8"
           >
             Expert-Driven Sales Activation for Middle Market &amp; Enterprise
           </h1>
           <button
             onClick={scrollToAccessForm}
-            className="cursor-pointer mt-8 px-6 py-3 md:px-8 md:py-4 rounded-md transition-all duration-300 text-gray-100 bg-gradient-to-r from-gray-900 to-gray-700 shadow-md hover:shadow-xl focus:outline-none"
+            className="cursor-pointer mt-12 px-6 py-3 md:px-8 md:py-4 rounded-lg transition-all duration-300 text-xl text-gray-100 bg-gradient-to-r from-gray-900 to-gray-700 shadow-md hover:shadow-xl focus:outline-none"
           >
             Get Early Access
           </button>
         </div>
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0">
           <div ref={textContainerRef} className="flex flex-col items-center justify-center space-y-4">
-            <div ref={text1Ref} className="text-gray-900 text-4xl md:text-5xl text-center font-bold">
+            <div ref={text1Ref} className="text-gray-900 text-heading text-center font-bold">
               Activating Producer Relationships
             </div>
-            <div ref={text2Ref} className="text-gray-900 text-4xl md:text-5xl text-center font-bold">
+            <div ref={text2Ref} className="text-gray-900 text-heading text-center font-bold">
               Amplifying Practice Group Expertise
             </div>
           </div>
@@ -278,7 +278,7 @@ export default function Home() {
       <div ref={credibilityRef} className="relative h-screen px-4 md:px-12 bg-gray-50 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 opacity-30"></div>
         <div className="relative z-10 flex flex-col items-center justify-center h-full">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 text-center">
+          <h2 className="text-heading font-bold text-gray-900 mb-6 text-center">
             Producer<br />Trust &amp; Credibility
           </h2>
           <div className="flex items-center justify-center mb-6">
@@ -300,12 +300,12 @@ export default function Home() {
       {/* Bullet Section */}
       <div ref={bulletSectionRef} className="flex items-center h-screen px-4 md:px-12 text-gray-900">
         <div className="max-w-6xl mx-auto">
-          <div className="mb-6">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-tight text-left md:text-left">
+          <div className="mb-6 grid grid-cols-12">
+            <h2 className="text-small-heading font-bold tracking-tight leading-tight text-balance text-left md:text-left col-span-9">
               A proven system designed to help teams move faster, engage smarter, and drive greater trust.
             </h2>
           </div>
-          <ul ref={bulletListRef} className="text-lg md:text-2xl text-gray-700 font-semibold leading-normal space-y-3">
+          <ul ref={bulletListRef} className="text-big text-gray-700 font-normal leading-normal space-y-3">
             <li>
               <TextGradientScroll text="Empowers Producers to turn lukewarm relationships into real opportunities" />
             </li>
@@ -329,13 +329,12 @@ export default function Home() {
       </div>
 
       {/* Form Section */}
-      <div ref={formRef} className="flex flex-col items-center justify-center h-screen w-full bg-gray-50 px-4">
-        <div ref={formContentRef} className="max-w-xl w-full mx-auto">
+      <div ref={formRef} className="flex flex-col items-center justify-center w-full bg-gray-50 px-4 py-24">
+        <div ref={formContentRef} className="max-w-2xl w-full mx-auto">
           <div className="backdrop-blur rounded-2xl shadow-xl p-8 border border-gray-300">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900">Exclusive Early Access Opportunity</h2>
-            <p className="text-gray-700 mb-6 text-sm md:text-base">
+            <h2 className="text-small-heading font-bold mb-4 text-gray-900">Exclusive Early Access Opportunity</h2>
+            <p className="text-gray-700 mb-6 text-body">
               We're launching an exclusive early access program where we will work hands-on with a small group of clients.
-              <br />
               Interested in learning more? Sign up below.
             </p>
             <form className="space-y-6">
@@ -344,26 +343,26 @@ export default function Home() {
                   <label htmlFor="firstName" className="block text-sm mb-1 text-gray-700">
                     First name<span className="text-gray-900"> *</span>
                   </label>
-                  <input type="text" id="firstName" placeholder="First name" className="w-full p-2 rounded text-gray-900 border border-gray-300" required />
+                  <input type="text" id="firstName" placeholder="First name" className="w-full max-w-xl py-4 px-6 text-xl rounded-lg border border-gray-300" required />
                 </div>
                 <div className="w-full md:w-1/2">
                   <label htmlFor="lastName" className="block text-sm mb-1 text-gray-700">
                     Last name<span className="text-gray-900"> *</span>
                   </label>
-                  <input type="text" id="lastName" placeholder="Last name" className="w-full p-2 rounded text-gray-900 border border-gray-300" required />
+                  <input type="text" id="lastName" placeholder="Last name" className="w-full max-w-xl py-4 px-6 text-xl rounded-lg border border-gray-300" required />
                 </div>
               </div>
               <div>
                 <label htmlFor="email" className="block text-sm mb-1 text-gray-700">
                   Email<span className="text-gray-900"> *</span>
                 </label>
-                <input type="email" id="email" placeholder="you@company.com" className="w-full p-2 rounded text-gray-900 border border-gray-300" required />
+                <input type="email" id="email" placeholder="you@company.com" className="w-full max-w-xl py-4 px-6 text-xl rounded-lg border border-gray-300" required />
               </div>
               <div>
                 <label htmlFor="role" className="block text-sm mb-1 text-gray-700">
                   Role<span className="text-gray-900"> *</span>
                 </label>
-                <select id="role" onChange={(e) => setRole(e.target.value)} className="w-full p-2 rounded text-gray-900 border border-gray-300" required>
+                <select id="role" onChange={(e) => setRole(e.target.value)} className="w-full max-w-xl py-4 px-6 text-xl rounded-lg border border-gray-300" required>
                   <option value="">Select your role</option>
                   <option>Practice Group / Coverage Leader</option>
                   <option>Sales Manager / Regional MD</option>
@@ -379,16 +378,16 @@ export default function Home() {
                   <label htmlFor="customRole" className="block text-sm mb-1 text-gray-700">
                     Your role
                   </label>
-                  <input type="text" id="customRole" placeholder="Tell us more" className="w-full p-2 rounded text-gray-900 border border-gray-300" required />
+                  <input type="text" id="customRole" placeholder="Tell us more" className="w-full max-w-xl py-4 px-6 text-xl rounded-lg border border-gray-300" required />
                 </div>
               )}
               <div className="flex items-start gap-2">
-                <input type="checkbox" id="privacy" className="mt-1 accent-gray-900" required />
-                <label htmlFor="privacy" className="text-sm text-gray-700">
+                <input type="checkbox" id="privacy" className="mt-2 mr-2 ml-1 scale-175 accent-gray-900" required />
+                <label htmlFor="privacy" className="text-xl text-gray-700">
                   You agree to our <a href="#" className="underline">privacy policy</a>.
                 </label>
               </div>
-              <button type="submit" className="cursor-pointer w-full bg-gray-900 text-gray-100 font-semibold py-2 px-4 rounded-md hover:bg-gray-800">
+              <button type="submit" className="cursor-pointer w-full bg-gray-900 text-gray-100 font-semibold py-4 px-8 text-lg rounded-lg hover:bg-gray-800">
                 Request Early Access
               </button>
             </form>
@@ -400,7 +399,37 @@ export default function Home() {
           </div>
         </div>
       </div>
-
+      
+      {/* Footer */}
+      <footer className="bg-gray-100 py-8">
+        <div className="max-w-5xl mx-auto px-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-sm text-gray-600">
+              © {new Date().getFullYear()} Thames IQ. All rights reserved.
+            </p>
+            <div className="flex gap-4 mt-4 md:mt-0">
+              <a
+                href="/privacy"
+                className="text-sm text-gray-600 hover:text-gray-900 transition"
+              >
+                Privacy Policy
+              </a>
+              <a
+                href="/terms"
+                className="text-sm text-gray-600 hover:text-gray-900 transition"
+              >
+                Terms of Service
+              </a>
+              <a
+                href="/contact"
+                className="text-sm text-gray-600 hover:text-gray-900 transition"
+              >
+                Contact Us
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
       <style jsx global>{`
         @keyframes spin-slow {
           from {
