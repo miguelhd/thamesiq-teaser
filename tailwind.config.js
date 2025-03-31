@@ -16,6 +16,19 @@ module.exports = {
   ],
   theme: {
     extend: {
+      animation: {
+        aurora: "aurora 15s linear infinite",
+      },
+      keyframes: {
+        aurora: {
+          "0%": {
+            backgroundPosition: "0% 50%, 0% 50%",
+          },
+          "100%": {
+            backgroundPosition: "200% 50%, 200% 50%",
+          },
+        },
+      },
       fontSize: {
         hero: [
           "clamp(4.5rem, 9vw, 10rem)", // 72px → 160px

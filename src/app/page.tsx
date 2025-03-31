@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import ThamesiqLogo from "@/assets/thamesiq_logo.svg";
 import { TextGradientScroll } from "@/components/ui/text-gradient-scroll";
+import { AuroraBackground } from "@/components/ui/aurora-background";
 
 // Register the ScrollTrigger plugin with GSAP.
 gsap.registerPlugin(ScrollTrigger);
@@ -26,6 +27,7 @@ export default function Home() {
   const mainRef = useRef<HTMLElement | null>(null);
   const formRef = useRef<HTMLDivElement | null>(null);
   const formContentRef = useRef<HTMLDivElement | null>(null);
+  const perspectiveRef = useRef<HTMLDivElement | null>(null);
 
   const [role, setRole] = useState("");
 
@@ -237,23 +239,25 @@ export default function Home() {
 
       {/* Hero Section */}
       <div ref={pinnedSectionRef} className="relative h-screen overflow-hidden z-10">
-        <div ref={backgroundRef} className="absolute inset-0 -z-10" />
+        <AuroraBackground className="fixed inset-0 -z-20" />
+        <div ref={backgroundRef} className="absolute inset-0 -z-10 bg-transparent" />
+
         <div
           ref={slide1Ref}
           className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center px-4 perspective-[1000px] z-20"
         >
-          <div ref={logoRef} className="w-11/12 md:w-[65vw] mx-auto mb-4">
+          <div ref={logoRef} className="w-11/12 md:w-[65vw] mx-auto">
             <ThamesiqLogo preserveAspectRatio="xMidYMid meet" className="logo-svg w-full block" />
           </div>
           <h1
             ref={headlineRef}
-            className="text-gray-900 text-3xl md:text-4xl font-bold text-center max-w-xl px-4"
+            className="text-gray-900 text-3xl md:text-4xl font-bold text-center max-w-xl mt-8"
           >
             Expert-Driven Sales Activation for Middle Market &amp; Enterprise
           </h1>
           <button
             onClick={scrollToAccessForm}
-            className="cursor-pointer mt-6 px-6 py-3 md:px-8 md:py-4 rounded-md transition-all duration-300 text-gray-100 bg-gradient-to-r from-gray-900 to-gray-700 shadow-md hover:shadow-xl focus:outline-none z-30"
+            className="cursor-pointer mt-8 px-6 py-3 md:px-8 md:py-4 rounded-md transition-all duration-300 text-gray-100 bg-gradient-to-r from-gray-900 to-gray-700 shadow-md hover:shadow-xl focus:outline-none"
           >
             Get Early Access
           </button>
@@ -330,7 +334,7 @@ export default function Home() {
           <div className="backdrop-blur rounded-2xl shadow-xl p-8 border border-gray-300">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900">Exclusive Early Access Opportunity</h2>
             <p className="text-gray-700 mb-6 text-sm md:text-base">
-              We’re launching an exclusive early access program where we will work hands-on with a small group of clients.
+              We're launching an exclusive early access program where we will work hands-on with a small group of clients.
               <br />
               Interested in learning more? Sign up below.
             </p>

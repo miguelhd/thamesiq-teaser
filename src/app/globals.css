@@ -1,9 +1,18 @@
 @import "tailwindcss";
-@import "tw-animate-css"; /* optional */
+@import "tw-animate-css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes aurora {
+  from {
+    background-position: 0% 50%, 0% 50%;
+  }
+  to {
+    background-position: 200% 50%, 200% 50%;
+  }
+}
 
 @layer components {
   .text-hero {
@@ -119,6 +128,14 @@
   --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
   --sidebar-border: oklch(0.923 0.003 48.717);
   --sidebar-ring: oklch(0.709 0.01 56.259);
+  --white: #ffffff;
+  --black: #000000;
+  --transparent: transparent;
+  --blue-300: #93c5fd;
+  --blue-400: #60a5fa;
+  --blue-500: #3b82f6;
+  --indigo-300: #a5b4fc;
+  --violet-200: #ddd6fe;
 }
 
 /* Dark theme override */
