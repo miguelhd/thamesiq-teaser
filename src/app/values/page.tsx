@@ -2,6 +2,9 @@
 
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ValuesPage: React.FC = () => {
   const mainRef = useRef<HTMLDivElement>(null);
@@ -16,16 +19,41 @@ const ValuesPage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (mainRef.current) {
-      // Reveal the main element before running animations.
-      gsap.set(mainRef.current, { visibility: 'visible', opacity: 1 });
-    }
-    const tl = gsap.timeline({ defaults: { duration: 0.6, ease: 'power2.out' } });
-    tl.from('.values-header', { opacity: 0, y: -20 })
-      .from('.values-subheader', { opacity: 0, y: 20 }, '-=0.4')
-      .from('.values-bullet', { opacity: 0, y: 20, stagger: 0.2 }, '-=0.4')
-      .from('.section-header', { opacity: 0, y: 20 }, '-=0.3')
-      .from('.section-text', { opacity: 0, y: 20, stagger: 0.2 }, '-=0.3');
+    if (!mainRef.current) return;
+
+    gsap.set(mainRef.current, { visibility: "visible", opacity: 1 });
+
+    const ctx = gsap.context(() => {
+      // Animate headline on load
+      gsap.from(".values-header span", {
+        opacity: 0,
+        y: 20,
+        scale: 1.4,
+        stagger: 0.05,
+        duration: 0.8,
+        ease: "power3.out",
+      });
+
+      // Scroll-controlled animation for subheader + bullets
+      gsap.from([".values-subheader", ".values-bullet"], {
+  scrollTrigger: {
+    trigger: ".scroll-driver",
+    start: "top bottom",
+      end: "+=25%",            // animate over 50% of viewport height
+    scrub: true,
+    // 👇 removed pin
+    // pin: ".section-1",
+    anticipatePin: 1,
+    // markers: true,
+  },
+  x: -80,
+  opacity: 0,
+  stagger: 0.15,
+  ease: "power2.out",
+});
+    }, mainRef);
+
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -60,39 +88,37 @@ const ValuesPage: React.FC = () => {
       </header>
 
       {/* Section 1 */}
-      <section
-        className="section-1 flex flex-col mt-40"
-        style={{ height: '100vh' }}
-      >
-        <div className="max-w-5xl mx-auto px-8">
-          <header
-            className="values-header mb-12"
-            style={{ marginBottom: 'clamp(6rem, 10vw, 11.25rem)' }}
-          >
-            <h1 className="text-hero font-bold mb-4">Our Values</h1>
-            <p className="values-subheader text-big font-normal">
-              Every decision we make involves benchmarking them with our values.
-            </p>
-          </header>
-          <div className="values-bullets space-y-0">
-            <div className="values-bullet py-5 border-b border-gray-200">
-              <h3 className="text-big font-normal text-gray-900">
-                Creative Collaboration
-              </h3>
-            </div>
-            <div className="values-bullet py-5 border-b border-gray-200">
-              <h3 className="text-big font-normal text-gray-900">
-                Thoughtful Disruption
-              </h3>
-            </div>
-            <div className="values-bullet py-5 border-b border-gray-200">
-              <h3 className="text-big font-normal text-gray-900">
-                Bridging Expertise
-              </h3>
-            </div>
-          </div>
-        </div>
-      </section>
+      <section className="section-1 flex flex-col mt-40" style={{ height: '100vh' }}>
+  <div className="max-w-5xl mx-auto px-8">
+    <header className="values-header mb-12" style={{ marginBottom: 'clamp(6rem, 10vw, 11.25rem)' }}>
+      <h1 className="values-header text-hero font-bold mb-4 flex flex-wrap">
+        {"Our Values".split("").map((letter, i) => (
+          <span key={i} className="inline-block will-change-transform">
+            {letter === " " ? "\u00A0" : letter}
+          </span>
+        ))}
+      </h1>
+      <p className="values-subheader text-big font-normal">
+        Every decision we make involves benchmarking them with our values.
+      </p>
+    </header>
+
+    <div className="values-bullets space-y-0">
+      <div className="values-bullet py-5 border-b border-gray-200">
+        <h3 className="text-big font-normal text-gray-900">Creative Collaboration</h3>
+      </div>
+      <div className="values-bullet py-5 border-b border-gray-200">
+        <h3 className="text-big font-normal text-gray-900">Thoughtful Disruption</h3>
+      </div>
+      <div className="values-bullet py-5 border-b border-gray-200">
+        <h3 className="text-big font-normal text-gray-900">Bridging Expertise</h3>
+      </div>
+    </div>
+
+    {/* 🔥 This invisible div gives ScrollTrigger scroll range */}
+    <div className="scroll-driver h-[100vh] pointer-events-none" />
+  </div>
+</section>
 
       {/* Section 2 */}
       <section
