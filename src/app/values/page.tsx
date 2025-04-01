@@ -21,6 +21,7 @@ const ValuesPage: React.FC = () => {
 
     gsap.set(mainRef.current, { visibility: "visible", opacity: 1 });
 
+    // Create GSAP context and store it in ctx so we can revert on cleanup.
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
 
@@ -44,13 +45,11 @@ const ValuesPage: React.FC = () => {
           stagger: 0.05,
           duration: 0.8,
           ease: "power3.out",
-          // Optionally set transformOrigin if needed:
-          // transformOrigin: "50% 50%",
         },
         ">0" // starts immediately after the previous animation completes
       );
 
-      // ...rest of your animations...
+      // Animate bullet items with scrollTrigger
       const bulletTL = gsap.timeline({
         scrollTrigger: {
           trigger: ".section-1",
@@ -106,8 +105,8 @@ const ValuesPage: React.FC = () => {
       });
     }, mainRef);
 
-    // Remove ctx.revert() to avoid resetting animations in development Strict Mode.
-    // return () => ctx.revert();
+    // Use ctx in cleanup to revert animations on unmount.
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -178,14 +177,18 @@ const ValuesPage: React.FC = () => {
       <section className="section-2 flex items-center bg-[#FAFAFA] py-16 min-h-screen">
         <div className="max-w-5xl mx-auto px-8 w-full">
           <div className="mb-12 grid grid-cols-12 section2-block-1">
-            <h2 className="section-header text-heading font-bold mb-10 col-span-12 lg:col-span-7">The Clients We Work With</h2>
+            <h2 className="section-header text-heading font-bold mb-10 col-span-12 lg:col-span-7">
+              The Clients We Work With
+            </h2>
             <p className="section-text text-big col-span-12 lg:col-span-7 mb-20">
               Optimistic folks that value mutual respect.
             </p>
           </div>
 
           <div className="mb-12 grid grid-cols-12 section2-block-2">
-            <h2 className="section-header text-heading font-bold mb-10 col-span-12 lg:col-span-7">The Team We're Building</h2>
+            <h2 className="section-header text-heading font-bold mb-10 col-span-12 lg:col-span-7">
+              The Team We're Building
+            </h2>
             <p className="section-text text-big col-span-12 lg:col-span-7">
               Specifically Confident, Holistically Humble.
             </p>
@@ -239,9 +242,15 @@ const ValuesPage: React.FC = () => {
               © {new Date().getFullYear()} Thames IQ. All rights reserved.
             </p>
             <div className="flex gap-4 mt-4 md:mt-0">
-              <a href="/privacy" className="text-sm text-gray-600 hover:text-gray-900 transition">Privacy Policy</a>
-              <a href="/terms" className="text-sm text-gray-600 hover:text-gray-900 transition">Terms of Service</a>
-              <a href="/contact" className="text-sm text-gray-600 hover:text-gray-900 transition">Contact Us</a>
+              <a href="/privacy" className="text-sm text-gray-600 hover:text-gray-900 transition">
+                Privacy Policy
+              </a>
+              <a href="/terms" className="text-sm text-gray-600 hover:text-gray-900 transition">
+                Terms of Service
+              </a>
+              <a href="/contact" className="text-sm text-gray-600 hover:text-gray-900 transition">
+                Contact Us
+              </a>
             </div>
           </div>
         </div>

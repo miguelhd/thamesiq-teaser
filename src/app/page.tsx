@@ -27,7 +27,7 @@ export default function Home() {
   const mainRef = useRef<HTMLElement | null>(null);
   const formRef = useRef<HTMLDivElement | null>(null);
   const formContentRef = useRef<HTMLDivElement | null>(null);
-  // Removed: const perspectiveRef = useRef<HTMLDivElement | null>(null);
+  // Removed: perspectiveRef is not needed.
 
   const [role, setRole] = useState("");
 
@@ -215,7 +215,7 @@ export default function Home() {
       slideElem.addEventListener("mousemove", handleMouseMove);
       slideElem.addEventListener("mouseleave", handleMouseLeave);
 
-      // Clean up event listeners on component unmount.
+      // Clean up event listeners and revert GSAP animations on component unmount.
       return () => {
         slideElem.removeEventListener("mousemove", handleMouseMove);
         slideElem.removeEventListener("mouseleave", handleMouseLeave);
@@ -408,22 +408,13 @@ export default function Home() {
               © {new Date().getFullYear()} Thames IQ. All rights reserved.
             </p>
             <div className="flex gap-4 mt-4 md:mt-0">
-              <a
-                href="/privacy"
-                className="text-sm text-gray-600 hover:text-gray-900 transition"
-              >
+              <a href="/privacy" className="text-sm text-gray-600 hover:text-gray-900 transition">
                 Privacy Policy
               </a>
-              <a
-                href="/terms"
-                className="text-sm text-gray-600 hover:text-gray-900 transition"
-              >
+              <a href="/terms" className="text-sm text-gray-600 hover:text-gray-900 transition">
                 Terms of Service
               </a>
-              <a
-                href="/contact"
-                className="text-sm text-gray-600 hover:text-gray-900 transition"
-              >
+              <a href="/contact" className="text-sm text-gray-600 hover:text-gray-900 transition">
                 Contact Us
               </a>
             </div>
