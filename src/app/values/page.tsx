@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Image from 'next/image'; // ✅ Added
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,11 +22,9 @@ const ValuesPage: React.FC = () => {
 
     gsap.set(mainRef.current, { visibility: "visible", opacity: 1 });
 
-    // Create GSAP context and store it in ctx so we can revert on cleanup.
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
 
-      // Animate "Our Values" headline letter-by-letter
       tl.from(".values-header span", {
         opacity: 0,
         y: 20,
@@ -35,7 +34,6 @@ const ValuesPage: React.FC = () => {
         ease: "power3.out",
       });
 
-      // Animate subheadline text letter-by-letter
       tl.fromTo(
         ".values-subheadline span",
         { opacity: 0, scale: 1.4 },
@@ -46,17 +44,15 @@ const ValuesPage: React.FC = () => {
           duration: 0.8,
           ease: "power3.out",
         },
-        ">0" // starts immediately after the previous animation completes
+        ">0"
       );
 
-      // Animate bullet items with scrollTrigger
       const bulletTL = gsap.timeline({
         scrollTrigger: {
           trigger: ".section-1",
           start: "top top",
           end: "+=25%",
           scrub: true,
-          markers: false,
         },
       });
 
@@ -105,7 +101,6 @@ const ValuesPage: React.FC = () => {
       });
     }, mainRef);
 
-    // Use ctx in cleanup to revert animations on unmount.
     return () => ctx.revert();
   }, []);
 
@@ -114,7 +109,14 @@ const ValuesPage: React.FC = () => {
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 flex items-center justify-between bg-white/75 backdrop-blur-md px-4 py-2 shadow-sm z-50">
         <div className="flex items-center">
-          <img src="/thamesiq_logo.svg" alt="Thames IQ Logo" className="h-8 w-auto" />
+          {/* ✅ Replaced <img> with <Image /> */}
+          <Image
+            src="/thamesiq_logo.svg"
+            alt="Thames IQ Logo"
+            width={100}
+            height={32}
+            className="h-8 w-auto"
+          />
         </div>
         <nav className="flex items-center gap-4">
           <a href="#" className="text-gray-700 hover:text-gray-900 transition">Home</a>
@@ -138,8 +140,6 @@ const ValuesPage: React.FC = () => {
                     </span>
                   ))}
                 </h1>
-
-                {/* Subheadline: each letter wrapped in a span (spaces preserved) */}
                 <p className="values-subheadline text-big font-normal text-gray-900">
                   {"Every decision we make involves benchmarking them with our values."
                     .split("")
@@ -187,7 +187,7 @@ const ValuesPage: React.FC = () => {
 
           <div className="mb-12 grid grid-cols-12 section2-block-2">
             <h2 className="section-header text-heading font-bold mb-10 col-span-12 lg:col-span-7">
-              The Team We're Building
+              The Team We’re Building
             </h2>
             <p className="section-text text-big col-span-12 lg:col-span-7">
               Specifically Confident, Holistically Humble.
@@ -200,7 +200,7 @@ const ValuesPage: React.FC = () => {
       <section className="section-3 flex items-center min-h-screen bg-white">
         <div className="max-w-5xl mx-auto px-8 w-full">
           <p className="section-3-text section-header text-special font-bold mb-2 text-pretty leading-tight">
-            {"We&apos;ve put significant thought in each of these values that go beyond a few sentences. If you want to learn more – ping us!"
+            {"We’ve put significant thought in each of these values that go beyond a few sentences. If you want to learn more – ping us!"
               .split(" ")
               .map((word, i) => (
                 <span key={i} className="inline-block opacity-0 mr-[0.25ch] will-change-transform">

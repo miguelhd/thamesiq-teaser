@@ -237,10 +237,11 @@ export default function Home() {
         </button>
       </div>
 
-      {/* Hero Section */}
-      <div ref={pinnedSectionRef} className="relative h-screen overflow-hidden z-10">
-        <AuroraBackground className="fixed inset-0 -z-20" />
-        <div ref={backgroundRef} className="absolute inset-0 -z-10 bg-transparent" />
+{/* Hero Section */}
+<div ref={pinnedSectionRef} className="relative h-screen overflow-hidden z-10">
+  <AuroraBackground className="fixed inset-0 -z-20">
+    <div ref={backgroundRef} className="absolute inset-0 -z-10 bg-transparent" />
+  </AuroraBackground>
 
         <div
           ref={slide1Ref}
