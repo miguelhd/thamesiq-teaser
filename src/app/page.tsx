@@ -27,7 +27,7 @@ export default function Home() {
   const mainRef = useRef<HTMLElement | null>(null);
   const formRef = useRef<HTMLDivElement | null>(null);
   const formContentRef = useRef<HTMLDivElement | null>(null);
-  const perspectiveRef = useRef<HTMLDivElement | null>(null);
+  // Removed: const perspectiveRef = useRef<HTMLDivElement | null>(null);
 
   const [role, setRole] = useState("");
 
@@ -334,7 +334,7 @@ export default function Home() {
           <div className="backdrop-blur rounded-2xl shadow-xl p-8 border border-gray-300">
             <h2 className="text-small-heading font-bold mb-4 text-gray-900">Exclusive Early Access Opportunity</h2>
             <p className="text-gray-700 mb-6 text-body">
-              We're launching an exclusive early access program where we will work hands-on with a small group of clients.
+              We&apos;re launching an exclusive early access program where we will work hands-on with a small group of clients.
               Interested in learning more? Sign up below.
             </p>
             <form className="space-y-6">

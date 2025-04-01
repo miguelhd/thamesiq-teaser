@@ -24,7 +24,7 @@ const ValuesPage: React.FC = () => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
 
-      // Animate "Our Values" headline letter-by-letter (includes y-axis slide)
+      // Animate "Our Values" headline letter-by-letter
       tl.from(".values-header span", {
         opacity: 0,
         y: 20,
@@ -34,17 +34,18 @@ const ValuesPage: React.FC = () => {
         ease: "power3.out",
       });
 
-      // Animate subheadline text letter-by-letter AFTER the headline.
-      // Added transformOrigin to "center center" to avoid unwanted vertical movement due to scaling.
-      tl.from(
+      // Animate subheadline text letter-by-letter
+      tl.fromTo(
         ".values-subheadline span",
+        { opacity: 0, scale: 1.4 },
         {
-          opacity: 0,
-          scale: 1.4,
-          transformOrigin: "50% 50%", // or "center center"
+          opacity: 1,
+          scale: 1,
           stagger: 0.05,
           duration: 0.8,
           ease: "power3.out",
+          // Optionally set transformOrigin if needed:
+          // transformOrigin: "50% 50%",
         },
         ">0" // starts immediately after the previous animation completes
       );
@@ -68,7 +69,6 @@ const ValuesPage: React.FC = () => {
         ease: "power2.out",
       });
 
-      // Other section animations remain unchanged...
       gsap.from(".section2-block-1", {
         scrollTrigger: {
           trigger: ".section2-block-1",
@@ -106,7 +106,8 @@ const ValuesPage: React.FC = () => {
       });
     }, mainRef);
 
-    return () => ctx.revert();
+    // Remove ctx.revert() to avoid resetting animations in development Strict Mode.
+    // return () => ctx.revert();
   }, []);
 
   return (
@@ -139,7 +140,7 @@ const ValuesPage: React.FC = () => {
                   ))}
                 </h1>
 
-                {/* Updated subheadline: Each letter is wrapped to preserve spaces */}
+                {/* Subheadline: each letter wrapped in a span (spaces preserved) */}
                 <p className="values-subheadline text-big font-normal text-gray-900">
                   {"Every decision we make involves benchmarking them with our values."
                     .split("")
@@ -151,7 +152,7 @@ const ValuesPage: React.FC = () => {
                 </p>
               </header>
 
-              <div className="values-bullets mb-20">
+              <div className="values-bullets space-y-0">
                 <div className="values-bullet py-5 border-b border-gray-200">
                   <h3 className="text-small-heading font-bold text-gray-900">
                     Creative Collaboration
@@ -196,7 +197,7 @@ const ValuesPage: React.FC = () => {
       <section className="section-3 flex items-center min-h-screen bg-white">
         <div className="max-w-5xl mx-auto px-8 w-full">
           <p className="section-3-text section-header text-special font-bold mb-2 text-pretty leading-tight">
-            {"We've put significant thought in each of these values that go beyond a few sentences. If you want to learn more – ping us!"
+            {"We&apos;ve put significant thought in each of these values that go beyond a few sentences. If you want to learn more – ping us!"
               .split(" ")
               .map((word, i) => (
                 <span key={i} className="inline-block opacity-0 mr-[0.25ch] will-change-transform">
