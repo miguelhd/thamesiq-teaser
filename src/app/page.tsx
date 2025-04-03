@@ -221,8 +221,8 @@ export default function Home() {
         const y = e.clientY - rect.top;
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
-        const rotateY = ((x - centerX) / centerX) * 10;
-        const rotateX = -((y - centerY) / centerY) * 10;
+        const rotateY = ((x - centerX) / centerX) * 5;
+        const rotateX = -((y - centerY) / centerY) * 5;
         gsap.to(slideElem, {
           rotationY: rotateY,
           rotationX: rotateX,
@@ -297,7 +297,7 @@ export default function Home() {
           </div>
           <h1
             ref={headlineRef}
-            className="text-gray-900 dark:text-gray-100 text-small-heading md:text-4xl font-bold text-center max-w-xl mt-8"
+            className="text-gray-800 dark:text-gray-100 text-small-heading md:text-4xl font-bold text-center max-w-xl mt-8"
           >
             Expert-Driven Sales Activation for Middle Market &amp; Enterprise
           </h1>
@@ -322,14 +322,14 @@ export default function Home() {
       </div>
 
       {/* Credibility Section */}
-      <div ref={credibilityRef} className="relative h-screen px-4 md:px-12 bg-gray-50 dark:bg-gray-900 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 opacity-30"></div>
+      <div ref={credibilityRef} className="relative h-screen px-4 md:px-12 bg-gray-50 dark:bg-zinc-900 overflow-hidden">
+        <div className="absolute inset-0"></div>
         <div className="relative z-10 flex flex-col items-center justify-center h-full space-y-6">
           <h2 data-cred="heading" className="text-heading font-bold text-gray-900 dark:text-gray-100 text-center">
             Producer<br />Trust &amp; Credibility
           </h2>
-          <div data-cred="number" className="relative inline-block px-6 py-4 bg-white dark:bg-gray-950 rounded-full border border-gray-300 dark:border-gray-700 shadow-lg">
-            <span className="text-gray-900 dark:text-gray-100 text-4xl md:text-[8rem] leading-none font-bold">
+          <div data-cred="number" className="relative inline-block px-6 py-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-300 dark:border-zinc-700 shadow-lg">
+            <span className="text-sky-600 dark:text-gray-100 text-4xl md:text-[8rem] leading-none font-bold">
               1.97
             </span>
           </div>
@@ -342,14 +342,14 @@ export default function Home() {
       </div>
 
       {/* Bullet Section */}
-      <div ref={bulletSectionRef} className="flex items-center h-screen px-4 md:px-12 text-gray-900 dark:text-gray-100">
+      <div ref={bulletSectionRef} className="flex items-center h-screen px-4 md:px-12 bg-gray-0 dark:bg-zinc-950 text-gray-900 dark:text-gray-100">
         <div className="max-w-6xl mx-auto">
           <div className="mb-6 grid grid-cols-12 relative">
-            <h2 className="text-small-heading font-bold tracking-tight leading-tight text-balance text-left md:text-left col-span-9">
+            <h2 className="text-small-heading font-bold tracking-tight leading-tight text-balance text-left dark:text-gray-100 text-gray-800 md:text-left col-span-9">
               <TextGradientScroll text="A proven system designed to help teams move faster, engage smarter, and drive greater trust." />
             </h2>
           </div>
-          <ul ref={bulletListRef} className="text-big text-gray-700 dark:text-gray-300 font-semibold tracking-tight text-pretty leading-normal space-y-3">
+          <ul ref={bulletListRef} className="text-big text-sky-600 dark:text-gray-300 font-semibold tracking-tight text-pretty leading-normal space-y-3">
             <li>
               <TextGradientScroll text="Empowers Producers to turn lukewarm relationships into real opportunities" />
             </li>
@@ -373,9 +373,9 @@ export default function Home() {
       </div>
 
       {/* Form Section */}
-      <div ref={formRef} className="flex flex-col items-center justify-center w-full bg-gray-100 dark:bg-gray-900 px-4 py-24">
+      <div ref={formRef} className="flex flex-col items-center justify-center w-full bg-gray-100 dark:bg-zinc-900 px-4 py-24">
         <div ref={formContentRef} className="max-w-2xl w-full mx-auto">
-          <div className="backdrop-blur rounded-2xl shadow-xl bg-gray-50 border border-gray-200 p-8">
+          <div className="backdrop-blur rounded-2xl shadow-xl bg-gray-50 dark:bg-zinc-50 border border-gray-200 p-8">
             <h2 className="text-small-heading font-bold mb-4 text-gray-900">Exclusive Early Access Opportunity</h2>
             <p className="text-gray-700 mb-6 text-body">
               We&apos;re launching an exclusive early access program where we will work hands-on with a small group of clients.
@@ -462,7 +462,7 @@ export default function Home() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-2015 dark:bg-gray-950 py-8">
+      <footer className="bg-gray-200 dark:bg-gray-950 py-8">
         <div className="max-w-5xl mx-auto px-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-gray-600 dark:text-gray-400">

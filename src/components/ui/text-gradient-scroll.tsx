@@ -59,7 +59,7 @@ function TextGradientScroll({
 
   return (
     <TextGradientScrollContext.Provider value={{ textOpacity, type }}>
-      <p ref={ref} className={cn("relative m-0 text-pretty", className)}>
+      <div ref={ref} className={cn("relative m-0 text-pretty", className)}>
         {words.map((word, i) => {
           const start = i / words.length;
           const end = start + 1 / words.length;
@@ -73,7 +73,7 @@ function TextGradientScroll({
             </Letter>
           );
         })}
-      </p>
+      </div>
     </TextGradientScrollContext.Provider>
   );
 }
@@ -94,7 +94,7 @@ const Letter = ({ children, progress, range }: LetterType) => {
     const step = amount / children.length;
 
     return (
-      <span className="relative inline-block me-1">
+      <span className="relative inline-block me-2">
         {children.split("").map((char, i) => {
           const start = range[0] + i * step;
           const end = range[0] + (i + 1) * step;
