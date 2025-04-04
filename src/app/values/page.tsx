@@ -19,79 +19,27 @@ const ValuesPage: React.FC = () => {
 
   useEffect(() => {
     if (!mainRef.current) return;
+    // Make sure the main container is visible
     gsap.set(mainRef.current, { visibility: "visible", opacity: 1 });
 
     const ctx = gsap.context(() => {
-      // --- Section 1 Pin ---
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: ".section-1",
-          start: "top top",
-          end: "+=80%",
-          pin: true,
-          scrub: true,
-        },
-      });
-      
-      // --- Section 2 Pin ---
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: ".section-2",
-          start: "top top",
-          end: "+=100%",
-          pin: true,
-          scrub: true,
-        },
-      });
-      
-      // --- Section 3 Pin & Word-by-Word Fade In ---
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: ".section-3",
-          start: "top top",
-          end: "+=100%",
-          pin: true,
-          scrub: true,
-        },
-      }).to(".section-3-text span", {
-        opacity: 1,
-        duration: 0.4,
-        stagger: 0.05,
-        ease: "power1.out",
-      });
-      
-      // --- Section 4: Pin & Inner Content Fade In ---
-      // The outer section (.section-4) holds the background.
-      // The inner container (.section-4-content) will fade in from 0.2 to 1.
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: ".section-4",
-          start: "top top",
-          end: "+=100%",
-          pin: true,
-          scrub: true,
-        },
-      }).fromTo(
-        ".section-4-content",
-        { opacity: 0.2 },
-        { opacity: 1, ease: "power2.out" }
-      );
-      
-      // --- Section 1: Header & Bullet Animations ---
-      gsap.timeline().from(".values-header span", {
+      // --- Section 1: Run header animation automatically on load ---
+      gsap.from(".values-header span", {
+        duration: 0.8,
         opacity: 0,
         y: 20,
         scale: 1.4,
         stagger: 0.05,
-        duration: 0.8,
         ease: "power3.out",
       });
-      
+
+      // --- Section 1: Bullet Animation with ScrollTrigger (scrubbed) ---
       gsap.timeline({
         scrollTrigger: {
           trigger: ".section-1",
           start: "top top",
-          end: "+=25%",
+          end: "+=30%",
+          pin: true,
           scrub: true,
         },
       }).from(".values-bullet", {
@@ -101,8 +49,8 @@ const ValuesPage: React.FC = () => {
         duration: 0.6,
         ease: "power2.out",
       });
-      
-      // --- Section 2: Individual Block Animations ---
+
+      // --- Section 2: Animate Each Block Individually & Center Vertically ---
       const section2 = document.querySelector(".section-2");
       if (section2) {
         const blocks = section2.querySelectorAll(".section2-block");
@@ -120,8 +68,37 @@ const ValuesPage: React.FC = () => {
           });
         });
       }
-      
-      // Subheadline remains unanimated (reserved for future effects)
+
+      // --- Section 3: Pinned with Scrubbed Word-by-Word Fade-In ---
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: ".section-3",
+          start: "top top",
+          end: "+=100%",
+          pin: true,
+          scrub: true,
+        },
+      }).to(".section-3-text span", {
+        opacity: 1,
+        duration: 0.4,
+        stagger: 0.05,
+        ease: "power1.out",
+      });
+
+      // --- Section 4: Pin & Inner Content Fade-In (Background remains opaque) ---
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: ".section-4",
+          start: "top top",
+          end: "+=100%",
+          pin: true,
+          scrub: true,
+        },
+      }).fromTo(
+        ".section-4-content",
+        { opacity: 0.2 },
+        { opacity: 1, ease: "power2.out" }
+      );
     }, mainRef);
 
     return () => ctx.revert();
@@ -240,7 +217,6 @@ const ValuesPage: React.FC = () => {
 
       {/* Section 4 */}
       <section className="section-4 relative min-h-screen bg-[#1f2937]">
-        {/* The background stays fully opaque */}
         <div className="section-4-content max-w-5xl mx-auto px-8 py-32">
           <h2 className="section-header text-small-heading font-bold mb-10 text-white">
             Our View on Middle Market and Enterprise Companies Business Development
@@ -250,13 +226,13 @@ const ValuesPage: React.FC = () => {
               Trust is lost in the industry. A significant amount of executive leaders do not trust new insurance producers that knock on their doors.
             </p>
             <p className="section-text text-body text-gray-300 leading-relaxed mb-4">
-              We believe that discovery meetings need to be earned. Brokers need to illustrate and display expertise to build credibility with a prospect.
+              We believe that discovery meetings need to be earned. Brokers need to illustrate and display expertise to build credibility with a prospect. Not only the producers but the practice groups that work with them.
             </p>
             <p className="section-text text-body text-gray-300 leading-relaxed mb-4">
               We also believe this expertise needs to be deployed strategically and efficiently at the right time.
             </p>
             <p className="section-text text-body text-gray-300 leading-relaxed mb-4">
-              The top brokers typically have what it takes – the producers with the relationship and the practice groups.
+              The top brokers typically have what it takes - the producers with the relationship and the practice groups. But they don’t maximize their ROI because they don’t put it all together. M&A further complicates this, but creates an opportunity to accelerate organic growth.
             </p>
           </div>
         </div>
@@ -270,13 +246,22 @@ const ValuesPage: React.FC = () => {
               © {new Date().getFullYear()} Thames IQ. All rights reserved.
             </p>
             <div className="flex gap-4 mt-4 md:mt-0">
-              <a href="/privacy" className="text-sm text-gray-600 hover:text-gray-900 transition">
+              <a
+                href="/privacy"
+                className="text-sm text-gray-600 hover:text-gray-900 transition"
+              >
                 Privacy Policy
               </a>
-              <a href="/terms" className="text-sm text-gray-600 hover:text-gray-900 transition">
+              <a
+                href="/terms"
+                className="text-sm text-gray-600 hover:text-gray-900 transition"
+              >
                 Terms of Service
               </a>
-              <a href="/contact" className="text-sm text-gray-600 hover:text-gray-900 transition">
+              <a
+                href="/contact"
+                className="text-sm text-gray-600 hover:text-gray-900 transition"
+              >
                 Contact Us
               </a>
             </div>
