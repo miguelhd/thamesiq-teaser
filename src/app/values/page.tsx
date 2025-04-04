@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
@@ -11,23 +12,14 @@ const ValuesPage: React.FC = () => {
   const mainRef = useRef<HTMLDivElement>(null);
   const [navOpen, setNavOpen] = useState(false);
 
-  const scrollToAccessForm = () => {
-    const element = document.getElementById("accessForm");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setNavOpen(false);
-    }
-  };
-
   useEffect(() => {
     if (!mainRef.current) return;
     // Ensure the main container is visible
     gsap.set(mainRef.current, { visibility: "visible", opacity: 1 });
 
     const ctx = gsap.context(() => {
-      // Responsive animations via ScrollTrigger.matchMedia
       ScrollTrigger.matchMedia({
-        // Desktop animations (min-width:768px)
+        // Desktop animations (min-width: 768px)
         "(min-width: 768px)": function () {
           // Section 1: Header runs automatically on load.
           gsap.from(".values-header span", {
@@ -54,7 +46,7 @@ const ValuesPage: React.FC = () => {
             duration: 0.6,
             ease: "power2.out",
           });
-          // Section 2: Global pinning with a dummy tween to keep the pin active.
+          // Section 2: Global pinning with a dummy tween.
           gsap.timeline({
             scrollTrigger: {
               trigger: ".section-2",
@@ -112,7 +104,7 @@ const ValuesPage: React.FC = () => {
             { opacity: 1, ease: "power2.out" }
           );
         },
-        // Mobile animations (max-width:767px)
+        // Mobile animations (max-width: 767px)
         "(max-width: 767px)": function () {
           // On mobile, disable pinning/scrubbing for smoother scroll.
           gsap.from(".values-header span", {
@@ -182,39 +174,41 @@ const ValuesPage: React.FC = () => {
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/75 backdrop-blur-md px-4 py-2 shadow-sm">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="flex items-center">
-            <Image
-              src="/thamesiq_logo.svg"
-              alt="Thames IQ Logo"
-              width={100}
-              height={32}
-              className="h-6 w-auto"
-            />
+            <Link href="/" className="block">
+              <Image
+                src="/thamesiq_logo.svg"
+                alt="Thames IQ Logo"
+                width={100}
+                height={32}
+                className="h-6 w-auto"
+              />
+            </Link>
           </div>
           <nav>
             {/* Desktop Nav */}
             <ul className="hidden md:flex items-center gap-4">
               <li>
-                <a href="/" className="text-gray-700 hover:text-gray-900 transition">
+                <Link href="/" className="text-gray-700 hover:text-gray-900 transition">
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-700 hover:text-gray-900 font-bold transition">
-                  Values
-                </a>
+                <Link href="/#about" className="text-gray-700 hover:text-gray-900 transition">
+                  About
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={scrollToAccessForm}
-                  className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition"
-                >
+                <Link href="/#accessForm" className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition">
                   Get Access
-                </button>
+                </Link>
               </li>
             </ul>
             {/* Mobile Nav Toggle */}
             <div className="md:hidden">
-              <button onClick={() => setNavOpen(!navOpen)} className="text-gray-700 hover:text-gray-900 focus:outline-none">
+              <button
+                onClick={() => setNavOpen(!navOpen)}
+                className="text-gray-700 hover:text-gray-900 focus:outline-none"
+              >
                 {navOpen ? (
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -233,22 +227,19 @@ const ValuesPage: React.FC = () => {
           <div className="md:hidden">
             <ul className="flex flex-col items-center gap-4 py-4">
               <li>
-                <a href="/" className="text-gray-700 hover:text-gray-900 transition" onClick={() => setNavOpen(false)}>
+                <Link href="/" className="text-gray-700 hover:text-gray-900 transition" onClick={() => setNavOpen(false)}>
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-700 hover:text-gray-900 font-bold transition" onClick={() => setNavOpen(false)}>
-                  Values
-                </a>
+                <Link href="/#about" className="text-gray-700 hover:text-gray-900 transition" onClick={() => setNavOpen(false)}>
+                  About
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={scrollToAccessForm}
-                  className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition"
-                >
+                <Link href="/#accessForm" className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition" onClick={() => setNavOpen(false)}>
                   Get Access
-                </button>
+                </Link>
               </li>
             </ul>
           </div>
@@ -364,15 +355,15 @@ const ValuesPage: React.FC = () => {
               © {new Date().getFullYear()} Thames IQ. All rights reserved.
             </p>
             <div className="flex gap-4 mt-4 md:mt-0">
-              <a href="/privacy" className="text-sm text-gray-600 hover:text-gray-900 transition">
+              <Link href="/privacy" className="text-sm text-gray-600 hover:text-gray-900 transition">
                 Privacy Policy
-              </a>
-              <a href="/terms" className="text-sm text-gray-600 hover:text-gray-900 transition">
+              </Link>
+              <Link href="/terms" className="text-sm text-gray-600 hover:text-gray-900 transition">
                 Terms of Service
-              </a>
-              <a href="/contact" className="text-sm text-gray-600 hover:text-gray-900 transition">
+              </Link>
+              <Link href="/contact" className="text-sm text-gray-600 hover:text-gray-900 transition">
                 Contact Us
-              </a>
+              </Link>
             </div>
           </div>
         </div>
