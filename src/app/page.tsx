@@ -14,15 +14,6 @@ const ValuesPage: React.FC = () => {
   const mainRef = useRef<HTMLDivElement>(null);
   const [navOpen, setNavOpen] = useState(false);
 
-  const scrollToAccessForm = () => {
-    // On the landing page, the element with id="accessForm" should exist.
-    const element = document.getElementById("accessForm");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setNavOpen(false);
-    }
-  };
-
   useEffect(() => {
     if (!mainRef.current) return;
     // Ensure the main container is visible
@@ -30,7 +21,7 @@ const ValuesPage: React.FC = () => {
 
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
-        // Desktop animations (min-width:768px)
+        // Desktop animations (min-width: 768px)
         "(min-width: 768px)": function () {
           // Section 1: Header runs automatically on load.
           gsap.from(".values-header span", {
