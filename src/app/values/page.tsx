@@ -194,13 +194,13 @@ const ValuesPage: React.FC = () => {
             {/* Desktop Nav */}
             <ul className="hidden md:flex items-center gap-4">
               <li>
-                <a href="#" className="text-gray-700 hover:text-gray-900 transition">
+                <a href="/" className="text-gray-700 hover:text-gray-900 transition">
                   Home
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-700 hover:text-gray-900 transition">
-                  About
+                <a href="#" className="text-gray-700 hover:text-gray-900 font-bold transition">
+                  Values
                 </a>
               </li>
               <li>
@@ -233,13 +233,13 @@ const ValuesPage: React.FC = () => {
           <div className="md:hidden">
             <ul className="flex flex-col items-center gap-4 py-4">
               <li>
-                <a href="#" className="text-gray-700 hover:text-gray-900 transition" onClick={() => setNavOpen(false)}>
+                <a href="/" className="text-gray-700 hover:text-gray-900 transition" onClick={() => setNavOpen(false)}>
                   Home
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-700 hover:text-gray-900 transition" onClick={() => setNavOpen(false)}>
-                  About
+                <a href="#" className="text-gray-700 hover:text-gray-900 font-bold transition" onClick={() => setNavOpen(false)}>
+                  Values
                 </a>
               </li>
               <li>
