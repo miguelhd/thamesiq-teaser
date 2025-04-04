@@ -12,15 +12,6 @@ const ValuesPage: React.FC = () => {
   const mainRef = useRef<HTMLDivElement>(null);
   const [navOpen, setNavOpen] = useState(false);
 
-  const scrollToAccessForm = () => {
-    // On the landing page, the element with id="accessForm" should exist.
-    const element = document.getElementById("accessForm");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setNavOpen(false);
-    }
-  };
-
   useEffect(() => {
     if (!mainRef.current) return;
     // Ensure the main container is visible
@@ -28,7 +19,7 @@ const ValuesPage: React.FC = () => {
 
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
-        // Desktop animations (min-width: 768px)
+        // Desktop animations (min-width:768px)
         "(min-width: 768px)": function () {
           // Section 1: Header runs automatically on load.
           gsap.from(".values-header span", {
@@ -113,7 +104,7 @@ const ValuesPage: React.FC = () => {
             { opacity: 1, ease: "power2.out" }
           );
         },
-        // Mobile animations (max-width: 767px)
+        // Mobile animations (max-width:767px)
         "(max-width: 767px)": function () {
           // On mobile, disable pinning/scrubbing for smoother scroll.
           gsap.from(".values-header span", {
@@ -236,29 +227,17 @@ const ValuesPage: React.FC = () => {
           <div className="md:hidden">
             <ul className="flex flex-col items-center gap-4 py-4">
               <li>
-                <Link
-                  href="/"
-                  className="text-gray-700 hover:text-gray-900 transition"
-                  onClick={() => setNavOpen(false)}
-                >
+                <Link href="/" className="text-gray-700 hover:text-gray-900 transition" onClick={() => setNavOpen(false)}>
                   Home
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/#about"
-                  className="text-gray-700 hover:text-gray-900 transition"
-                  onClick={() => setNavOpen(false)}
-                >
+                <Link href="/#about" className="text-gray-700 hover:text-gray-900 transition" onClick={() => setNavOpen(false)}>
                   About
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/#accessForm"
-                  className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition"
-                  onClick={() => setNavOpen(false)}
-                >
+                <Link href="/#accessForm" className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition" onClick={() => setNavOpen(false)}>
                   Get Access
                 </Link>
               </li>
