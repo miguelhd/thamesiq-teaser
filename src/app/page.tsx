@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
+
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -11,6 +13,15 @@ gsap.registerPlugin(ScrollTrigger);
 const ValuesPage: React.FC = () => {
   const mainRef = useRef<HTMLDivElement>(null);
   const [navOpen, setNavOpen] = useState(false);
+
+  const scrollToAccessForm = () => {
+    // On the landing page, the element with id="accessForm" should exist.
+    const element = document.getElementById("accessForm");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+      setNavOpen(false);
+    }
+  };
 
   useEffect(() => {
     if (!mainRef.current) return;
@@ -104,7 +115,7 @@ const ValuesPage: React.FC = () => {
             { opacity: 1, ease: "power2.out" }
           );
         },
-        // Mobile animations (max-width:767px)
+        // Mobile animations (max-width: 767px)
         "(max-width: 767px)": function () {
           // On mobile, disable pinning/scrubbing for smoother scroll.
           gsap.from(".values-header span", {
