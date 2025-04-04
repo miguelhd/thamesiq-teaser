@@ -1,5 +1,3 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
-
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -16,7 +14,7 @@ const ValuesPage: React.FC = () => {
 
   useEffect(() => {
     if (!mainRef.current) return;
-    // Ensure the main container is visible
+    // Make sure the main container is visible
     gsap.set(mainRef.current, { visibility: "visible", opacity: 1 });
 
     const ctx = gsap.context(() => {
@@ -176,32 +174,40 @@ const ValuesPage: React.FC = () => {
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/75 backdrop-blur-md px-4 py-2 shadow-sm">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="flex items-center">
-            <Link href="/" className="block">
-              <Image
-                src="/thamesiq_logo.svg"
-                alt="Thames IQ Logo"
-                width={100}
-                height={32}
-                className="h-6 w-auto"
-              />
+            <Link legacyBehavior href="/">
+              <a className="block">
+                <Image
+                  src="/thamesiq_logo.svg"
+                  alt="Thames IQ Logo"
+                  width={100}
+                  height={32}
+                  className="h-6 w-auto"
+                />
+              </a>
             </Link>
           </div>
           <nav>
             {/* Desktop Nav */}
             <ul className="hidden md:flex items-center gap-4">
               <li>
-                <Link href="/" className="text-gray-700 hover:text-gray-900 transition">
-                  Home
+                <Link legacyBehavior href="/">
+                  <a className="text-gray-700 hover:text-gray-900 transition">
+                    Home
+                  </a>
                 </Link>
               </li>
               <li>
-                <Link href="/#about" className="text-gray-700 hover:text-gray-900 transition">
-                  About
+                <Link legacyBehavior href="/#about">
+                  <a className="text-gray-700 hover:text-gray-900 transition">
+                    About
+                  </a>
                 </Link>
               </li>
               <li>
-                <Link href="/#accessForm" className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition">
-                  Get Access
+                <Link legacyBehavior href="/#accessForm">
+                  <a className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition">
+                    Get Access
+                  </a>
                 </Link>
               </li>
             </ul>
@@ -229,18 +235,24 @@ const ValuesPage: React.FC = () => {
           <div className="md:hidden">
             <ul className="flex flex-col items-center gap-4 py-4">
               <li>
-                <Link href="/" className="text-gray-700 hover:text-gray-900 transition" onClick={() => setNavOpen(false)}>
-                  Home
+                <Link legacyBehavior href="/">
+                  <a className="text-gray-700 hover:text-gray-900 transition" onClick={() => setNavOpen(false)}>
+                    Home
+                  </a>
                 </Link>
               </li>
               <li>
-                <Link href="/#about" className="text-gray-700 hover:text-gray-900 transition" onClick={() => setNavOpen(false)}>
-                  About
+                <Link legacyBehavior href="/#about">
+                  <a className="text-gray-700 hover:text-gray-900 transition" onClick={() => setNavOpen(false)}>
+                    About
+                  </a>
                 </Link>
               </li>
               <li>
-                <Link href="/#accessForm" className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition" onClick={() => setNavOpen(false)}>
-                  Get Access
+                <Link legacyBehavior href="/#accessForm">
+                  <a className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition" onClick={() => setNavOpen(false)}>
+                    Get Access
+                  </a>
                 </Link>
               </li>
             </ul>
@@ -357,14 +369,20 @@ const ValuesPage: React.FC = () => {
               © {new Date().getFullYear()} Thames IQ. All rights reserved.
             </p>
             <div className="flex gap-4 mt-4 md:mt-0">
-              <Link href="/privacy" className="text-sm text-gray-600 hover:text-gray-900 transition">
-                Privacy Policy
+              <Link legacyBehavior href="/privacy">
+                <a className="text-sm text-gray-600 hover:text-gray-900 transition">
+                  Privacy Policy
+                </a>
               </Link>
-              <Link href="/terms" className="text-sm text-gray-600 hover:text-gray-900 transition">
-                Terms of Service
+              <Link legacyBehavior href="/terms">
+                <a className="text-sm text-gray-600 hover:text-gray-900 transition">
+                  Terms of Service
+                </a>
               </Link>
-              <Link href="/contact" className="text-sm text-gray-600 hover:text-gray-900 transition">
-                Contact Us
+              <Link legacyBehavior href="/contact">
+                <a className="text-sm text-gray-600 hover:text-gray-900 transition">
+                  Contact Us
+                </a>
               </Link>
             </div>
           </div>
