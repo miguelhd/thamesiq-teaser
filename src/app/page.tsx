@@ -11,8 +11,14 @@ import { AuroraBackground } from "@/components/ui/aurora-background";
 // Register the ScrollTrigger plugin with GSAP.
 gsap.registerPlugin(ScrollTrigger);
 
+// Extend the HTMLElement interface for our custom properties.
+interface CustomSlideElement extends HTMLElement {
+  _mouseMoveHandler?: (e: MouseEvent) => void;
+  _mouseLeaveHandler?: (e: MouseEvent) => void;
+}
+
 export default function Home() {
-  // Explicitly type all refs.
+  // Explicitly typed refs.
   const pinnedSectionRef = useRef<HTMLDivElement | null>(null);
   const slide1Ref = useRef<HTMLDivElement | null>(null);
   const logoRef = useRef<HTMLDivElement | null>(null);
@@ -53,7 +59,7 @@ export default function Home() {
   // Stabilize Mouse Effect Functions using useCallback
   // ------------------------------
   const initMouse3DEffect = useCallback(() => {
-    const slideElem = slide1Ref.current;
+    const slideElem = slide1Ref.current as CustomSlideElement | null;
     if (slideElem) {
       const mouseMoveHandler = (e: MouseEvent) => {
         const rect = slideElem.getBoundingClientRect();
@@ -84,17 +90,17 @@ export default function Home() {
       slideElem.addEventListener("mousemove", mouseMoveHandler);
       slideElem.addEventListener("mouseleave", mouseLeaveHandler);
 
-      // Store the handlers on the element for removal later.
-      (slideElem as any)._mouseMoveHandler = mouseMoveHandler;
-      (slideElem as any)._mouseLeaveHandler = mouseLeaveHandler;
+      // Save handlers on the element for removal later.
+      slideElem._mouseMoveHandler = mouseMoveHandler;
+      slideElem._mouseLeaveHandler = mouseLeaveHandler;
     }
   }, []);
 
   const removeMouse3DEffect = useCallback(() => {
-    const slideElem = slide1Ref.current;
+    const slideElem = slide1Ref.current as CustomSlideElement | null;
     if (slideElem) {
-      const mouseMoveHandler = (slideElem as any)._mouseMoveHandler;
-      const mouseLeaveHandler = (slideElem as any)._mouseLeaveHandler;
+      const mouseMoveHandler = slideElem._mouseMoveHandler;
+      const mouseLeaveHandler = slideElem._mouseLeaveHandler;
       if (mouseMoveHandler && mouseLeaveHandler) {
         slideElem.removeEventListener("mousemove", mouseMoveHandler);
         slideElem.removeEventListener("mouseleave", mouseLeaveHandler);
@@ -208,8 +214,8 @@ export default function Home() {
           ease: "none",
           scrollTrigger: {
             trigger: pinnedSectionRef.current,
-            start: "top top",
-            end: "+=400",
+            start: "top 90%",
+            end: "+=300",
             scrub: true,
             invalidateOnRefresh: true,
           },
