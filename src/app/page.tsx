@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -12,23 +12,22 @@ import { AuroraBackground } from "@/components/ui/aurora-background";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  // Refs for DOM elements used in animations and interactions.
-  const pinnedSectionRef = useRef(null);
-  const slide1Ref = useRef(null);
-  const logoRef = useRef(null);
-  const headlineRef = useRef(null);
-  const textContainerRef = useRef(null);
-  const text1Ref = useRef(null);
-  const text2Ref = useRef(null);
-  const bulletSectionRef = useRef(null);
-  const bulletListRef = useRef(null);
-  const credibilityRef = useRef(null);
-  const backgroundRef = useRef(null);
-  const mainRef = useRef(null);
-  const formRef = useRef(null);
-  const formContentRef = useRef(null);
-  // New ref for the "Get Early Access" button.
-  const accessButtonRef = useRef(null);
+  // Explicitly type all refs.
+  const pinnedSectionRef = useRef<HTMLDivElement | null>(null);
+  const slide1Ref = useRef<HTMLDivElement | null>(null);
+  const logoRef = useRef<HTMLDivElement | null>(null);
+  const headlineRef = useRef<HTMLHeadingElement | null>(null);
+  const textContainerRef = useRef<HTMLDivElement | null>(null);
+  const text1Ref = useRef<HTMLDivElement | null>(null);
+  const text2Ref = useRef<HTMLDivElement | null>(null);
+  const bulletSectionRef = useRef<HTMLDivElement | null>(null);
+  const bulletListRef = useRef<HTMLUListElement | null>(null);
+  const credibilityRef = useRef<HTMLDivElement | null>(null);
+  const backgroundRef = useRef<HTMLDivElement | null>(null);
+  const mainRef = useRef<HTMLElement | null>(null);
+  const formRef = useRef<HTMLDivElement | null>(null);
+  const formContentRef = useRef<HTMLDivElement | null>(null);
+  const accessButtonRef = useRef<HTMLButtonElement | null>(null);
 
   // State for manual dark mode toggle.
   const [manualDark, setManualDark] = useState(false);
@@ -51,19 +50,69 @@ export default function Home() {
     formRef.current?.scrollIntoView({ behavior: "smooth" });
 
   // ------------------------------
+  // Stabilize Mouse Effect Functions using useCallback
+  // ------------------------------
+  const initMouse3DEffect = useCallback(() => {
+    const slideElem = slide1Ref.current;
+    if (slideElem) {
+      const mouseMoveHandler = (e: MouseEvent) => {
+        const rect = slideElem.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateY = ((x - centerX) / centerX) * 5;
+        const rotateX = -((y - centerY) / centerY) * 5;
+        gsap.to(slideElem, {
+          rotationY: rotateY,
+          rotationX: rotateX,
+          transformPerspective: 1000,
+          ease: "power3.out",
+          duration: 0.5,
+        });
+      };
+
+      const mouseLeaveHandler = () => {
+        gsap.to(slideElem, {
+          rotationY: 0,
+          rotationX: 0,
+          ease: "power3.out",
+          duration: 0.5,
+        });
+      };
+
+      slideElem.addEventListener("mousemove", mouseMoveHandler);
+      slideElem.addEventListener("mouseleave", mouseLeaveHandler);
+
+      // Store the handlers on the element for removal later.
+      (slideElem as any)._mouseMoveHandler = mouseMoveHandler;
+      (slideElem as any)._mouseLeaveHandler = mouseLeaveHandler;
+    }
+  }, []);
+
+  const removeMouse3DEffect = useCallback(() => {
+    const slideElem = slide1Ref.current;
+    if (slideElem) {
+      const mouseMoveHandler = (slideElem as any)._mouseMoveHandler;
+      const mouseLeaveHandler = (slideElem as any)._mouseLeaveHandler;
+      if (mouseMoveHandler && mouseLeaveHandler) {
+        slideElem.removeEventListener("mousemove", mouseMoveHandler);
+        slideElem.removeEventListener("mouseleave", mouseLeaveHandler);
+      }
+    }
+  }, []);
+
+  // ------------------------------
   // Main useEffect: Initialize Animations
   // ------------------------------
   useEffect(() => {
-    // Create a GSAP context to scope our animations.
     const ctx = gsap.context(() => {
-      // Initially hide the main element.
       if (mainRef.current) {
         mainRef.current.style.visibility = "hidden";
         mainRef.current.style.opacity = "0";
       }
 
       requestAnimationFrame(() => {
-        // Fade in the main element.
         if (mainRef.current) {
           mainRef.current.style.visibility = "visible";
           gsap.to(mainRef.current, {
@@ -80,20 +129,17 @@ export default function Home() {
         animateCredibilitySection();
         animateFormSection();
 
-        // Refresh ScrollTrigger after all animations are set.
         ScrollTrigger.refresh();
       });
     }, mainRef);
 
-    // Initialize the 3D mouse effect.
     initMouse3DEffect();
 
-    // Cleanup function.
     return () => {
       removeMouse3DEffect();
       ctx.revert();
     };
-  }, []);
+  }, [initMouse3DEffect, removeMouse3DEffect]);
 
   // ------------------------------
   // Modularized Animation Functions
@@ -162,8 +208,8 @@ export default function Home() {
           ease: "none",
           scrollTrigger: {
             trigger: pinnedSectionRef.current,
-            start: "top top", // start fading as soon as the pinned section hits the top
-            end: "+=400",     // adjust this value as needed for a gradual fade
+            start: "top top",
+            end: "+=400",
             scrub: true,
             invalidateOnRefresh: true,
           },
@@ -212,8 +258,6 @@ export default function Home() {
       const heading = credibilityRef.current.querySelector("[data-cred='heading']");
       const number = credibilityRef.current.querySelector("[data-cred='number']");
       const paragraph = credibilityRef.current.querySelector("[data-cred='text']");
-
-      // Prepare paragraph for clipPath reveal effect.
       gsap.set(paragraph, { overflow: "hidden", clipPath: "inset(0 100% 0 0)" });
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -264,54 +308,6 @@ export default function Home() {
   };
 
   // ------------------------------
-  // Modularized 3D Mouse Interaction Functions
-  // ------------------------------
-  let mouseMoveHandler;
-  let mouseLeaveHandler;
-
-  const initMouse3DEffect = () => {
-    const slideElem = slide1Ref.current;
-    if (slideElem) {
-      mouseMoveHandler = (e) => {
-        const rect = slideElem.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateY = ((x - centerX) / centerX) * 5;
-        const rotateX = -((y - centerY) / centerY) * 5;
-        gsap.to(slideElem, {
-          rotationY: rotateY,
-          rotationX: rotateX,
-          transformPerspective: 1000,
-          ease: "power3.out",
-          duration: 0.5,
-        });
-      };
-
-      mouseLeaveHandler = () => {
-        gsap.to(slide1Ref.current, {
-          rotationY: 0,
-          rotationX: 0,
-          ease: "power3.out",
-          duration: 0.5,
-        });
-      };
-
-      slideElem.addEventListener("mousemove", mouseMoveHandler);
-      slideElem.addEventListener("mouseleave", mouseLeaveHandler);
-    }
-  };
-
-  const removeMouse3DEffect = () => {
-    const slideElem = slide1Ref.current;
-    if (slideElem && mouseMoveHandler && mouseLeaveHandler) {
-      slideElem.removeEventListener("mousemove", mouseMoveHandler);
-      slideElem.removeEventListener("mouseleave", mouseLeaveHandler);
-    }
-  };
-
-  // ------------------------------
   // JSX Return
   // ------------------------------
   return (
@@ -348,7 +344,6 @@ export default function Home() {
         <AuroraBackground className="fixed inset-0 -z-20">
           <div ref={backgroundRef} className="absolute inset-0 -z-10 bg-transparent" />
         </AuroraBackground>
-
         <div
           ref={slide1Ref}
           className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center px-4 perspective-[1000px] z-20"
@@ -367,13 +362,12 @@ export default function Home() {
           </h1>
           <button
             onClick={scrollToAccessForm}
-            ref={accessButtonRef}  // Also adding the ref here ensures redundancy if needed
+            ref={accessButtonRef}
             className="cursor-pointer mt-12 px-6 py-3 md:px-8 md:py-4 rounded-lg transition-all duration-300 text-xl text-gray-100 bg-gradient-to-r from-gray-900 to-gray-700 dark:text-gray-900 dark:from-gray-100 dark:to-gray-200 shadow-md hover:shadow-xl focus:outline-none"
           >
             Get Early Access
           </button>
         </div>
-
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0">
           <div ref={textContainerRef} className="flex flex-col items-center justify-center space-y-4">
             <div ref={text1Ref} className="text-gray-900 dark:text-gray-100 text-heading text-center font-bold">
