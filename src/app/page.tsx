@@ -27,6 +27,8 @@ export default function Home() {
   const mainRef = useRef(null);
   const formRef = useRef(null);
   const formContentRef = useRef(null);
+  // New ref for the "Get Early Access" button.
+  const accessButtonRef = useRef(null);
 
   // State for manual dark mode toggle.
   const [manualDark, setManualDark] = useState(false);
@@ -73,6 +75,7 @@ export default function Home() {
 
         // Call modularized animation functions.
         animateHeroSection();
+        animateAccessButton();
         animateBulletSection();
         animateCredibilitySection();
         animateFormSection();
@@ -145,6 +148,27 @@ export default function Home() {
       );
       tl.to(text1Ref.current, { x: -100, opacity: 0, ease: "power2.in" }, 0.9)
         .to(text2Ref.current, { x: 100, opacity: 0, ease: "power2.in" }, "<");
+    }
+  };
+
+  // New function to fade out the Get Access button.
+  const animateAccessButton = () => {
+    if (accessButtonRef.current && pinnedSectionRef.current) {
+      gsap.fromTo(
+        accessButtonRef.current,
+        { opacity: 1 },
+        {
+          opacity: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: pinnedSectionRef.current,
+            start: "top top", // start fading as soon as the pinned section hits the top
+            end: "+=400",     // adjust this value as needed for a gradual fade
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+        }
+      );
     }
   };
 
@@ -306,9 +330,10 @@ export default function Home() {
         </a>
         <button
           onClick={scrollToAccessForm}
+          ref={accessButtonRef}
           className="cursor-pointer px-4 py-2 bg-gray-900 text-gray-100 rounded-md hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200 transition"
         >
-          Get Access
+          Get Early Access
         </button>
         <button
           onClick={() => setManualDark(!manualDark)}
@@ -342,6 +367,7 @@ export default function Home() {
           </h1>
           <button
             onClick={scrollToAccessForm}
+            ref={accessButtonRef}  // Also adding the ref here ensures redundancy if needed
             className="cursor-pointer mt-12 px-6 py-3 md:px-8 md:py-4 rounded-lg transition-all duration-300 text-xl text-gray-100 bg-gradient-to-r from-gray-900 to-gray-700 dark:text-gray-900 dark:from-gray-100 dark:to-gray-200 shadow-md hover:shadow-xl focus:outline-none"
           >
             Get Early Access
