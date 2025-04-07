@@ -12,24 +12,24 @@ import { AuroraBackground } from "@/components/ui/aurora-background";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  // Use refs to target specific DOM elements.
-  const pinnedSectionRef = useRef<HTMLDivElement | null>(null);
-  const slide1Ref = useRef<HTMLDivElement | null>(null);
-  const logoRef = useRef<HTMLDivElement | null>(null);
-  const headlineRef = useRef<HTMLHeadingElement | null>(null);
-  const textContainerRef = useRef<HTMLDivElement | null>(null);
-  const text1Ref = useRef<HTMLDivElement | null>(null);
-  const text2Ref = useRef<HTMLDivElement | null>(null);
-  const bulletSectionRef = useRef<HTMLDivElement | null>(null);
-  const bulletListRef = useRef<HTMLUListElement | null>(null);
-  const credibilityRef = useRef<HTMLDivElement | null>(null);
-  const backgroundRef = useRef<HTMLDivElement | null>(null);
-  const mainRef = useRef<HTMLElement | null>(null);
-  const formRef = useRef<HTMLDivElement | null>(null);
-  const formContentRef = useRef<HTMLDivElement | null>(null);
+  // Refs for DOM elements used in animations and interactions.
+  const pinnedSectionRef = useRef(null);
+  const slide1Ref = useRef(null);
+  const logoRef = useRef(null);
+  const headlineRef = useRef(null);
+  const textContainerRef = useRef(null);
+  const text1Ref = useRef(null);
+  const text2Ref = useRef(null);
+  const bulletSectionRef = useRef(null);
+  const bulletListRef = useRef(null);
+  const credibilityRef = useRef(null);
+  const backgroundRef = useRef(null);
+  const mainRef = useRef(null);
+  const formRef = useRef(null);
+  const formContentRef = useRef(null);
 
+  // State for manual dark mode toggle.
   const [manualDark, setManualDark] = useState(false);
-
   useEffect(() => {
     const root = window.document.documentElement;
     if (manualDark) {
@@ -39,13 +39,18 @@ export default function Home() {
     }
   }, [manualDark]);
 
+  // State for the role selection in the form.
   const [role, setRole] = useState("");
 
-  // Function to scroll back to the top of the page.
-  const scrollToPageTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
-  // Function to scroll to the access form section.
-  const scrollToAccessForm = () => formRef.current?.scrollIntoView({ behavior: "smooth" });
+  // Scroll helper functions.
+  const scrollToPageTop = () =>
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  const scrollToAccessForm = () =>
+    formRef.current?.scrollIntoView({ behavior: "smooth" });
 
+  // ------------------------------
+  // Main useEffect: Initialize Animations
+  // ------------------------------
   useEffect(() => {
     // Create a GSAP context to scope our animations.
     const ctx = gsap.context(() => {
@@ -59,163 +64,191 @@ export default function Home() {
         // Fade in the main element.
         if (mainRef.current) {
           mainRef.current.style.visibility = "visible";
-          gsap.to(mainRef.current, { opacity: 1, duration: 0.6, ease: "power1.out" });
-        }
-
-        // Animate elements in the pinned section.
-        if (
-          pinnedSectionRef.current &&
-          slide1Ref.current &&
-          logoRef.current &&
-          headlineRef.current &&
-          textContainerRef.current &&
-          text1Ref.current &&
-          text2Ref.current &&
-          backgroundRef.current
-        ) {
-          gsap.set(logoRef.current, { transformOrigin: "center center" });
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: pinnedSectionRef.current,
-              start: "top top",
-              end: "+=200%",
-              scrub: true,
-              pin: true,
-              anticipatePin: 1,
-              invalidateOnRefresh: true,
-            },
-          });
-          tl.to(backgroundRef.current, { y: -50, ease: "none" }, 0);
-          tl.fromTo(
-            logoRef.current,
-            { scale: 1, opacity: 1, filter: "blur(0px)" },
-            { scale: 4, opacity: 0, filter: "blur(8px)", ease: "power2.inOut" },
-            0
-          );
-          tl.fromTo(
-            headlineRef.current,
-            { scale: 1, opacity: 1 },
-            { scale: 1.2, opacity: 0, ease: "power2.out" },
-            0.1
-          );
-          tl.fromTo(
-            text1Ref.current,
-            { x: 100, opacity: 0 },
-            { x: 0, opacity: 1, ease: "power2.out" },
-            0.4
-          ).fromTo(
-            text2Ref.current,
-            { x: -100, opacity: 0 },
-            { x: 0, opacity: 1, ease: "power2.out" },
-            "<"
-          );
-          tl.to(text1Ref.current, { x: -100, opacity: 0, ease: "power2.in" }, 0.9)
-            .to(text2Ref.current, { x: 100, opacity: 0, ease: "power2.in" }, "<");
-        }
-
-        // Animate the bullet section as it comes into view.
-        if (bulletSectionRef.current) {
-          gsap.fromTo(
-            bulletSectionRef.current,
-            { autoAlpha: 0, y: 50 },
-            {
-              autoAlpha: 1,
-              y: 0,
-              duration: 1,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: bulletSectionRef.current,
-                start: "top 60%",
-                toggleActions: "play none none reverse",
-              },
-            }
-          );
-        }
-
-        // Animate each bullet item with a staggered effect.
-        if (bulletListRef.current) {
-          const bullets = bulletListRef.current.querySelectorAll("li");
-          gsap.from(bullets, {
-            y: 30,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            stagger: 0.2,
-            scrollTrigger: {
-              trigger: bulletListRef.current,
-              start: "top 75%",
-              toggleActions: "play none none reverse",
-            },
+          gsap.to(mainRef.current, {
+            opacity: 1,
+            duration: 0.6,
+            ease: "power1.out",
           });
         }
 
-        // Animate the credibility section.
-        if (credibilityRef.current) {
-          const heading = credibilityRef.current.querySelector("[data-cred='heading']");
-          const number = credibilityRef.current.querySelector("[data-cred='number']");
-          const paragraph = credibilityRef.current.querySelector("[data-cred='text']");
+        // Call modularized animation functions.
+        animateHeroSection();
+        animateBulletSection();
+        animateCredibilitySection();
+        animateFormSection();
 
-          // Set the paragraph to be initially hidden via clipPath (revealed from left to right)
-          gsap.set(paragraph, { overflow: "hidden", clipPath: "inset(0 100% 0 0)" });
-
-          // Adjusted ScrollTrigger: pin the section when its center hits the viewport center
-          // and spread the animation over 600px of scrolling.
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: credibilityRef.current,
-              start: "center center",
-              end: "+=600",
-              scrub: true,
-              pin: true,
-              invalidateOnRefresh: true,
-            },
-          });
-
-          tl.fromTo(
-            heading,
-            { scale: 0.9, opacity: 0, y: 100 },
-            { scale: 1, opacity: 1, y: 0, ease: "power3.out" },
-            0
-          )
-            .fromTo(
-              number,
-              { scale: 0.5, opacity: 0, y: 150 },
-              { scale: 1, opacity: 1, y: 0, ease: "power4.out" },
-              0.2
-            )
-            .fromTo(
-              paragraph,
-              { clipPath: "inset(0 100% 0 0)", opacity: 0 },
-              { clipPath: "inset(0 0% 0 0)", opacity: 1, ease: "power2.out" },
-              0.3
-            );
-        }
-
-        // Slide in the form content from the right.
-        if (formRef.current && formContentRef.current) {
-          gsap.set(formContentRef.current, { x: window.innerWidth });
-          gsap.to(formContentRef.current, {
-            x: 0,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: formRef.current,
-              start: "top 60%",
-              end: "top center",
-              scrub: 5,
-              invalidateOnRefresh: true,
-            },
-          });
-        }
-
-        // Refresh ScrollTrigger to update the animations.
+        // Refresh ScrollTrigger after all animations are set.
         ScrollTrigger.refresh();
       });
     }, mainRef);
 
-    // Add mouse interaction for 3D plane shift on the hero section.
+    // Initialize the 3D mouse effect.
+    initMouse3DEffect();
+
+    // Cleanup function.
+    return () => {
+      removeMouse3DEffect();
+      ctx.revert();
+    };
+  }, []);
+
+  // ------------------------------
+  // Modularized Animation Functions
+  // ------------------------------
+
+  const animateHeroSection = () => {
+    if (
+      pinnedSectionRef.current &&
+      slide1Ref.current &&
+      logoRef.current &&
+      headlineRef.current &&
+      textContainerRef.current &&
+      text1Ref.current &&
+      text2Ref.current &&
+      backgroundRef.current
+    ) {
+      gsap.set(logoRef.current, { transformOrigin: "center center" });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: pinnedSectionRef.current,
+          start: "top top",
+          end: "+=200%",
+          scrub: true,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+      tl.to(backgroundRef.current, { y: -50, ease: "none" }, 0);
+      tl.fromTo(
+        logoRef.current,
+        { scale: 1, opacity: 1, filter: "blur(0px)" },
+        { scale: 4, opacity: 0, filter: "blur(8px)", ease: "power2.inOut" },
+        0
+      );
+      tl.fromTo(
+        headlineRef.current,
+        { scale: 1, opacity: 1 },
+        { scale: 1.2, opacity: 0, ease: "power2.out" },
+        0.1
+      );
+      tl.fromTo(
+        text1Ref.current,
+        { x: 100, opacity: 0 },
+        { x: 0, opacity: 1, ease: "power2.out" },
+        0.4
+      ).fromTo(
+        text2Ref.current,
+        { x: -100, opacity: 0 },
+        { x: 0, opacity: 1, ease: "power2.out" },
+        "<"
+      );
+      tl.to(text1Ref.current, { x: -100, opacity: 0, ease: "power2.in" }, 0.9)
+        .to(text2Ref.current, { x: 100, opacity: 0, ease: "power2.in" }, "<");
+    }
+  };
+
+  const animateBulletSection = () => {
+    if (bulletSectionRef.current) {
+      gsap.fromTo(
+        bulletSectionRef.current,
+        { autoAlpha: 0, y: 50 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: bulletSectionRef.current,
+            start: "top 60%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+    }
+    if (bulletListRef.current) {
+      const bullets = bulletListRef.current.querySelectorAll("li");
+      gsap.from(bullets, {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: bulletListRef.current,
+          start: "top 75%",
+          toggleActions: "play none none reverse",
+        },
+      });
+    }
+  };
+
+  const animateCredibilitySection = () => {
+    if (credibilityRef.current) {
+      const heading = credibilityRef.current.querySelector("[data-cred='heading']");
+      const number = credibilityRef.current.querySelector("[data-cred='number']");
+      const paragraph = credibilityRef.current.querySelector("[data-cred='text']");
+
+      // Prepare paragraph for clipPath reveal effect.
+      gsap.set(paragraph, { overflow: "hidden", clipPath: "inset(0 100% 0 0)" });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: credibilityRef.current,
+          start: "center center",
+          end: "+=600",
+          scrub: true,
+          pin: true,
+          invalidateOnRefresh: true,
+        },
+      });
+      tl.fromTo(
+        heading,
+        { scale: 0.9, opacity: 0, y: 100 },
+        { scale: 1, opacity: 1, y: 0, ease: "power3.out" },
+        0
+      )
+        .fromTo(
+          number,
+          { scale: 0.5, opacity: 0, y: 150 },
+          { scale: 1, opacity: 1, y: 0, ease: "power4.out" },
+          0.2
+        )
+        .fromTo(
+          paragraph,
+          { clipPath: "inset(0 100% 0 0)", opacity: 0 },
+          { clipPath: "inset(0 0% 0 0)", opacity: 1, ease: "power2.out" },
+          0.3
+        );
+    }
+  };
+
+  const animateFormSection = () => {
+    if (formRef.current && formContentRef.current) {
+      gsap.set(formContentRef.current, { x: window.innerWidth });
+      gsap.to(formContentRef.current, {
+        x: 0,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: formRef.current,
+          start: "top 60%",
+          end: "top center",
+          scrub: 5,
+          invalidateOnRefresh: true,
+        },
+      });
+    }
+  };
+
+  // ------------------------------
+  // Modularized 3D Mouse Interaction Functions
+  // ------------------------------
+  let mouseMoveHandler;
+  let mouseLeaveHandler;
+
+  const initMouse3DEffect = () => {
     const slideElem = slide1Ref.current;
     if (slideElem) {
-      const handleMouseMove = (e: MouseEvent) => {
+      mouseMoveHandler = (e) => {
         const rect = slideElem.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -232,8 +265,8 @@ export default function Home() {
         });
       };
 
-      const handleMouseLeave = () => {
-        gsap.to(slideElem, {
+      mouseLeaveHandler = () => {
+        gsap.to(slide1Ref.current, {
           rotationY: 0,
           rotationX: 0,
           ease: "power3.out",
@@ -241,26 +274,29 @@ export default function Home() {
         });
       };
 
-      slideElem.addEventListener("mousemove", handleMouseMove);
-      slideElem.addEventListener("mouseleave", handleMouseLeave);
-
-      return () => {
-        slideElem.removeEventListener("mousemove", handleMouseMove);
-        slideElem.removeEventListener("mouseleave", handleMouseLeave);
-        ctx.revert();
-      };
-    } else {
-      return () => ctx.revert();
+      slideElem.addEventListener("mousemove", mouseMoveHandler);
+      slideElem.addEventListener("mouseleave", mouseLeaveHandler);
     }
-  }, []);
+  };
 
+  const removeMouse3DEffect = () => {
+    const slideElem = slide1Ref.current;
+    if (slideElem && mouseMoveHandler && mouseLeaveHandler) {
+      slideElem.removeEventListener("mousemove", mouseMoveHandler);
+      slideElem.removeEventListener("mouseleave", mouseLeaveHandler);
+    }
+  };
+
+  // ------------------------------
+  // JSX Return
+  // ------------------------------
   return (
     <main
       ref={mainRef}
       className="relative w-full overflow-x-hidden bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100"
       style={{ visibility: "hidden", opacity: 0 }}
     >
-      {/* Floating Nav */}
+      {/* Floating Navigation */}
       <div className="fixed top-4 right-4 flex items-center gap-4 bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-md px-4 py-2 rounded-2xl shadow-lg z-50">
         <a href="#" className="text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 transition">
           Home
@@ -293,7 +329,10 @@ export default function Home() {
           className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center px-4 perspective-[1000px] z-20"
         >
           <div ref={logoRef} className="w-11/12 md:w-[65vw] mx-auto">
-            <ThamesiqLogo preserveAspectRatio="xMidYMid meet" className="logo-svg w-full block text-black dark:text-white fill-current" />
+            <ThamesiqLogo
+              preserveAspectRatio="xMidYMid meet"
+              className="logo-svg w-full block text-black dark:text-white fill-current"
+            />
           </div>
           <h1
             ref={headlineRef}
@@ -342,7 +381,7 @@ export default function Home() {
       </div>
 
       {/* Bullet Section */}
-      <div ref={bulletSectionRef} className="flex items-center h-screen px-4 md:px-12 bg-gray-0 dark:bg-zinc-950 text-gray-900 dark:text-gray-100">
+      <div ref={bulletSectionRef} className="flex items-center h-screen px-4 md:px-12 bg-gray-50 dark:bg-zinc-950 text-gray-900 dark:text-gray-100">
         <div className="max-w-6xl mx-auto">
           <div className="mb-6 grid grid-cols-12 relative">
             <h2 className="text-small-heading font-bold tracking-tight leading-tight text-balance text-left dark:text-gray-100 text-gray-800 md:text-left col-span-9">
@@ -406,7 +445,6 @@ export default function Home() {
                 <label htmlFor="role" className="block text-sm mb-1 text-gray-700">
                   Role<span className="text-gray-900"> *</span>
                 </label>
-                {/* ✅ Dropdown wrapper with custom arrow */}
                 <div className="relative w-full max-w-xl">
                   <select
                     id="role"
@@ -461,7 +499,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Footer */}
+      {/* Footer Section */}
       <footer className="bg-gray-200 dark:bg-gray-950 py-8">
         <div className="max-w-5xl mx-auto px-8">
           <div className="flex flex-col md:flex-row justify-between items-center">

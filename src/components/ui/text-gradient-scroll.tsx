@@ -54,7 +54,6 @@ function TextGradientScroll({
     target: ref,
     offset: ["start center", "end center"],
   });
-
   const words = text.split(" ");
 
   return (
@@ -83,7 +82,9 @@ const Word = ({ children, progress, range }: WordType) => {
   return (
     <span className="relative inline-block me-1">
       <span style={{ position: "absolute", opacity: 0.1 }}>{children}</span>
-      <motion.span style={{ transition: "all .5s", opacity }}>{children}</motion.span>
+      <motion.span style={{ transition: "all .5s", opacity }}>
+        {children}
+      </motion.span>
     </span>
   );
 };
@@ -92,7 +93,6 @@ const Letter = ({ children, progress, range }: LetterType) => {
   if (typeof children === "string") {
     const amount = range[1] - range[0];
     const step = amount / children.length;
-
     return (
       <span className="relative inline-block me-2">
         {children.split("").map((char, i) => {
@@ -112,24 +112,21 @@ const Letter = ({ children, progress, range }: LetterType) => {
 const Char = ({ children, progress, range }: CharType) => {
   const opacity = useTransform(progress, range, [0, 1]);
   const { textOpacity } = useGradientScroll();
-
   return (
     <span className="relative">
       <span
-        className={cn("absolute", {
-          "opacity-0": textOpacity === "none",
-          "opacity-10": textOpacity === "soft",
-          "opacity-30": textOpacity === "medium",
-        })}
+        className={
+          "absolute " +
+          (textOpacity === "none"
+            ? "opacity-0"
+            : textOpacity === "soft"
+            ? "opacity-10"
+            : "opacity-30")
+        }
       >
         {children}
       </span>
-      <motion.span
-        style={{
-          transition: "all .5s",
-          opacity,
-        }}
-      >
+      <motion.span style={{ transition: "all .5s", opacity }}>
         {children}
       </motion.span>
     </span>

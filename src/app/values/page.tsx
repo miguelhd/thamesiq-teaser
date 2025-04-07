@@ -193,8 +193,8 @@ const ValuesPage: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/#about" className="text-gray-700 hover:text-gray-900 transition">
-                  About
+                <Link href="#" className="text-gray-700 hover:text-gray-900 transition">
+                  Values
                 </Link>
               </li>
               <li>
@@ -232,8 +232,8 @@ const ValuesPage: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/#about" className="text-gray-700 hover:text-gray-900 transition" onClick={() => setNavOpen(false)}>
-                  About
+                <Link href="#" className="text-gray-700 hover:text-gray-900 transition" onClick={() => setNavOpen(false)}>
+                  Values
                 </Link>
               </li>
               <li>
